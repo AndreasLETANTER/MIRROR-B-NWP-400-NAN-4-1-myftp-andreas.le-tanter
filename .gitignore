@@ -1,0 +1,8 @@
+.vscode
+*.o
+*.gcno
+*.gcda
+myftp
+unit_test
+html
+latex

@@ -1,0 +1,70 @@
+name: chocolatine
+env:
+  MIRROR_URL: git@github.com:EpitechPromo2026/B-OOP-400-NAN-4-1-tekspice-andreas.le-tanter.git
+  EXECUTABLES: "nanotekspice"
+on:
+  push:
+  pull_request:
+    types: [created]
+    branches-ignore:
+      - 'ga-ignore-*'
+jobs:
+  push_to_mirror: 
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    needs: [run_tests]
+    steps:
+      - uses: actions/checkout@v3
+        with:
+            fetch-depth: 0
+      - uses: pixta-dev/repository-mirroring-action@v1
+        with:
+          target_repo_url:
+            ${{ env.MIRROR_URL }}
+          ssh_private_key:
+            ${{ secrets.SSH_KEY }}
+  check_repository_cleanliness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          myArray=('*/#*#' '*/*~' '*/*pain_au_chocolat*' '*/*.o' '*/*.a' '*/*.so' '*/*.gcno' '*/*.gcda' '*/*.gcov' '#*#' '*~' '*pain_au_chocolat*' '*.o' '*.a' '*.so' '*.gcno' '*.gcda' '*.gcov' 'tmp/*' '*/tmp/*')
+          find=0
+          for str in ${myArray[@]}; do
+              file_count=$(find "." -print | grep "$str" | wc -l)
+              if [[ $file_count -gt 0 ]]; then
+                  echo "::error title="Unwanted file detected: $str#L1"::$str"
+                  find=1
+              fi
+          done
+          if [ "$find" -eq "1" ]; then
+            exit 1
+          fi
+  check_program_compilation:
+    runs-on: ubuntu-latest
+    needs: [check_repository_cleanliness]
+    container:
+      image: epitechcontent/epitest-docker
+    steps:
+      - uses: actions/checkout@v3
+      - run: make
+        timeout-minutes: 2
+      - run: make clean
+      - run: |
+          IFS=','
+          read -a strarr <<< "${{ env.EXECUTABLES }}"
+          for name in ${strarr[@]}; do
+              file_count=$(find "." -type f -perm -a=x -print | grep "$name" | wc -l)
+              if [[ $file_count -eq "0" ]]; then
+                  exit 1
+              fi
+          done
+  run_tests:
+    runs-on: ubuntu-latest
+    needs: [check_program_compilation]
+    container:
+      image: epitechcontent/epitest-docker
+    steps:
+      - uses: actions/checkout@v3
+      - run: make tests_run
+        timeout-minutes: 2
