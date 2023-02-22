@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2023
 ** bootstrap_my_ftp [WSL : Ubuntu]
 ** File description:
-** main
+** main.c
 */
 
 #include <stdio.h>
