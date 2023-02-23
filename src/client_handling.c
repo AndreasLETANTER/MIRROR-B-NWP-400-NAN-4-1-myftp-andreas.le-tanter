@@ -5,20 +5,22 @@
 ** client_handling
 */
 
-#include "client_handling.h"
+#include "server.h"
+#include "client_connection.h"
 
-void handle_socket(socket_info_s *_socket_info)
+void handle_client_socket(socket_info_s *_socket_info, fd_set rfds)
 {
-    int new_socket = accept(_socket_info->server_fd, (struct sockaddr*) &_socket_info->address, &_socket_info->addrlen);
-    char buff[1024] = { 0 };
+    int valread = 0;
+    char buffer[1024] = { 0 };
 
-    if (new_socket == -1) {
-        perror("accept() failed");
-        exit(EXIT_FAILURE);
+    for (int i = 0, sd = 0; i < 1024; i++) {
+        sd = _socket_info->client_socket[i];
+
+        if (FD_ISSET(sd, &rfds)) {
+            valread = read(sd, buffer, 1024);
+            
+            check_client_deconnection(sd, valread, _socket_info, i);
+            check_client_interaction(buffer, valread, sd);
+        }
     }
-    printf("Connection from %s:%i\n", inet_ntoa(_socket_info->address.sin_addr), ntohs(_socket_info->address.sin_port));
-    read(new_socket, buff, 1024);
-    write(new_socket, buff, strlen(buff));
-
-    _socket_info->new_socket = new_socket;
 }

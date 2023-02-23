@@ -10,3 +10,4 @@
 
 void shutdown_server(socket_info_s *_socket_info);
 void server_engine(char *port);
+void handle_server_socket(socket_info_s *_socket_info);

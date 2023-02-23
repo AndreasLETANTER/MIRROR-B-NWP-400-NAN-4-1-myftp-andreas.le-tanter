@@ -17,9 +17,10 @@
 
 typedef struct socket_info_t {
     int server_fd;
-    int new_socket;
     struct sockaddr_in address;
     int addrlen;
+    int client_socket[1024];
+    int max_sd;
 } socket_info_s;
 
 int create_socket();

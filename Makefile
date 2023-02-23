@@ -11,6 +11,7 @@ SRC			=	src/client_handling.c \
 				src/initialyze_server.c \
 				src/server_connection.c \
 				src/server_handling.c \
+				src/client_connection.c \
 
 MAIN 		=	src/main.c
 

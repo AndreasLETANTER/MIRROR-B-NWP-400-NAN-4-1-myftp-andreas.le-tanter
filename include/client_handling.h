@@ -8,4 +8,4 @@
 #pragma once
 #include "server.h"
 
-void handle_socket(socket_info_s *_socket_info);
+void handle_client_socket(socket_info_s *_socket_info, fd_set rfds);
