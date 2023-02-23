@@ -7,7 +7,7 @@
 
 #include "server.h"
 
-int create_socket()
+int create_socket(void)
 {
     int server_fd = 0;
     int opt = 1;
@@ -16,10 +16,10 @@ int create_socket()
         exit(84);
     }
 
-    if( setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, (char *)&opt, 
-          sizeof(opt)) < 0 ) {  
-        perror("setsockopt failed");  
-        exit(EXIT_FAILURE);  
+    if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, (char *)&opt,
+        sizeof(opt)) < 0) {
+        perror("setsockopt failed");
+        exit(EXIT_FAILURE);
     }
 
     return server_fd;
@@ -32,8 +32,9 @@ void bind_socket(socket_info_s *_socket_info, int port)
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = htonl(INADDR_ANY);
     address.sin_port = htons(port);
-    
-    if (bind(_socket_info->server_fd, (struct sockaddr*) &address, sizeof(address)) < 0) {
+
+    if (bind(_socket_info->server_fd,
+        (struct sockaddr*) &address, sizeof(address)) < 0) {
         perror("bind failed\n");
         exit(EXIT_FAILURE);
     }
@@ -54,8 +55,8 @@ void initialyze_server(socket_info_s *_socket_info, char *port)
     bind_socket(_socket_info, atoi(port));
     initialyze_queue(_socket_info);
 
-    for (int i = 0; i < 1024; i++) {  
-        _socket_info->client_socket[i] = 0;  
+    for (int i = 0; i < 1024; i++) {
+        _socket_info->client_socket[i] = 0;
     }
 
     _socket_info->addrlen = sizeof(_socket_info->address);

@@ -23,7 +23,7 @@ typedef struct socket_info_t {
     int max_sd;
 } socket_info_s;
 
-int create_socket();
+int create_socket(void);
 void bind_socket(socket_info_s *_socket_info, int port);
 void initialyze_queue(socket_info_s *_socket_info);
 void initialyze_server(socket_info_s *_socket_info, char *port);

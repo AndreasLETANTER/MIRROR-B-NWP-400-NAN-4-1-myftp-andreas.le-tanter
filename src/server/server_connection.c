@@ -41,7 +41,7 @@ void accept_connection(socket_info_s *_socket_info)
 
 void seek_connection(socket_info_s *_socket_info)
 {
-    while(1) {
+    while (1) {
         accept_connection(_socket_info);
     }
 

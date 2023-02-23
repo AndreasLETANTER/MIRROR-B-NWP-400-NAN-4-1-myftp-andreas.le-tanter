@@ -8,7 +8,8 @@
 #include "server_connection.h"
 #include "client_handling.h"
 
-void check_client_deconnection(int sd, int valread, socket_info_s *_socket_info, int i)
+void check_client_deconnection(int sd, int valread,
+    socket_info_s *_socket_info, int i)
 {
     if (valread == 0) {
         close(sd);

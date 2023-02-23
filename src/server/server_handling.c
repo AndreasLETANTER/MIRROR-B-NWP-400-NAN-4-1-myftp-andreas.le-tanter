@@ -5,6 +5,7 @@
 ** server_handling
 */
 
+#include "initialyze_client.h"
 #include "server_connection.h"
 
 void shutdown_server(socket_info_s *_socket_info)
@@ -24,22 +25,14 @@ void server_engine(char *port)
 
 void handle_server_socket(socket_info_s *_socket_info)
 {
-    int new_socket = accept(_socket_info->server_fd, (struct sockaddr*) &_socket_info->address, &_socket_info->addrlen);
+    int new_socket = accept(_socket_info->server_fd,
+        (struct sockaddr*) &_socket_info->address, &_socket_info->addrlen);
     char buff[1024] = { 0 };
 
     if (new_socket == -1) {
         perror("accept() failed");
         exit(EXIT_FAILURE);
     }
-    
-    printf("Connection from %s:%i\n", inet_ntoa(_socket_info->address.sin_addr), ntohs(_socket_info->address.sin_port));
-    write(new_socket, "Welcome\r" , strlen("Welcome\r"));
 
-    for (int i = 0; i < 1024; i++) {
-        if (_socket_info->client_socket[i] == 0) {
-            _socket_info->client_socket[i] = new_socket;
-            printf("Adding to list of sockets as %d\n", i);
-            break;
-        }
-    }
+    initialyze_client_socket(_socket_info, new_socket);
 }
