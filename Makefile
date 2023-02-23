@@ -7,9 +7,12 @@
 
 #################ALL SRC##################
 
-SRC			=
+SRC			=	src/client_handling.c \
+				src/initialyze_server.c \
+				src/server_connection.c \
+				src/server_handling.c \
 
-MAIN 		=	src/server.c \
+MAIN 		=	src/main.c
 
 TESTS_SRC 	=	tests/test.c \
 
@@ -40,7 +43,7 @@ TESTS_FLAGS = 	--coverage -lcriterion
 all:	$(NAME)
 
 $(NAME): 		$(OBJ) $(OBJ_MAIN)
-	$(CC) -o $(NAME) $(OBJ) $(OBJ_MAIN) $(CFLAGS)
+	$(CC) -o $(NAME) $(CFLAGS) $(OBJ) $(OBJ_MAIN) 
 
 #################CLEAN##################
 
