@@ -7,11 +7,11 @@
 
 #################ALL SRC##################
 
-SRC			=	src/client_handling.c \
-				src/initialyze_server.c \
-				src/server_connection.c \
-				src/server_handling.c \
-				src/client_connection.c \
+SRC			=	src/server/initialyze_server.c \
+				src/server/server_connection.c \
+				src/server/server_handling.c \
+				src/client/client_connection.c \
+				src/client/client_handling.c \
 
 MAIN 		=	src/main.c
 
