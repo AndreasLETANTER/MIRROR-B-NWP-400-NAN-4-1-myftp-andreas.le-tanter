@@ -10,3 +10,4 @@
 
 void seek_connection(socket_info_s *_socket_info);
 void accept_connection(socket_info_s *_socket_info);
+void handling_connections(socket_info_s *_socket_info, fd_set rfds);

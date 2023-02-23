@@ -8,22 +8,9 @@
 #include "client_handling.h"
 #include "server_handling.h"
 
-void accept_connection(socket_info_s *_socket_info)
+void handling_connections(socket_info_s *_socket_info, fd_set rfds)
 {
-    fd_set rfds;
     int activity = 0;
-
-    FD_ZERO(&rfds);
-    FD_SET(_socket_info->server_fd, &rfds);
-    _socket_info->max_sd = _socket_info->server_fd;
-
-    for (int i = 0, sd = 0; i < 1024; i++) {
-        sd = _socket_info->client_socket[i];
-        if (sd > 0)
-            FD_SET(sd, &rfds);
-        if (sd > _socket_info->max_sd)
-            _socket_info->max_sd = sd;
-    }
 
     activity = select(_socket_info->max_sd + 1, &rfds, NULL, NULL, NULL);
 
@@ -37,6 +24,25 @@ void accept_connection(socket_info_s *_socket_info)
     }
 
     handle_client_socket(_socket_info, rfds);
+}
+
+void accept_connection(socket_info_s *_socket_info)
+{
+    fd_set rfds;
+
+    FD_ZERO(&rfds);
+    FD_SET(_socket_info->server_fd, &rfds);
+    _socket_info->max_sd = _socket_info->server_fd;
+
+    for (int i = 0, sd = 0; i < 1024; i++) {
+        sd = _socket_info->client_socket[i];
+        if (sd > 0)
+            FD_SET(sd, &rfds);
+        if (sd > _socket_info->max_sd)
+            _socket_info->max_sd = sd;
+    }
+
+    handling_connections(_socket_info, rfds);
 }
 
 void seek_connection(socket_info_s *_socket_info)
