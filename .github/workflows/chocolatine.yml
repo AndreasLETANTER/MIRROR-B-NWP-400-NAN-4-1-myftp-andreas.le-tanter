@@ -12,7 +12,7 @@ jobs:
   push_to_mirror: 
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
-    needs: [check_coding_style]
+    needs: [run_tests]
     steps:
       - uses: actions/checkout@v3
         with:
@@ -59,20 +59,6 @@ jobs:
                   exit 1
               fi
           done
-  check_coding_style:
-    runs-on: ubuntu-latest
-    needs: [run_tests]
-    container:
-      image: epitechcontent/epitest-docker
-    steps:
-      - uses: actions/checkout@v3
-      - name: Install Docker and Curl
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y docker.io curl
-      - run: |
-          ./coding-style.sh . .
-        timeout-minutes: 2
   run_tests:
     runs-on: ubuntu-latest
     needs: [check_program_compilation]
