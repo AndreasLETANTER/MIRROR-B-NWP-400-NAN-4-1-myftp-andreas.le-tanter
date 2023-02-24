@@ -17,6 +17,7 @@ void initialyze_client_socket(socket_info_s *_socket_info, int new_socket)
     for (int i = 0; i < 1024; i++) {
         if (_socket_info->client_socket[i]->socket_fd == 0) {
             _socket_info->client_socket[i]->socket_fd = new_socket;
+            _socket_info->client_socket[i]->socket_type = CLIENTSOCKET;
             printf("Adding to list of sockets as %d\n", i);
             break;
         }

@@ -53,6 +53,7 @@ void initialyze_server(socket_info_s *_socket_info, char *port)
 {
     _socket_info->server_socket = malloc(sizeof(socket_s));
     _socket_info->server_socket->socket_fd = create_socket();
+    _socket_info->server_socket->socket_type = SERVERSOCKET;
     bind_socket(_socket_info, atoi(port));
     initialyze_queue(_socket_info);
 
