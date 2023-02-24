@@ -14,7 +14,7 @@ void check_client_deconnection(int sd, int valread,
 {
     if (valread == 0) {
         close(sd);
-        _socket_info->client_socket[i] = 0;
+        _socket_info->client_socket[i]->socket_fd = 0;
     }
 }
 

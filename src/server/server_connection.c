@@ -35,7 +35,7 @@ void accept_connection(socket_info_s *_socket_info)
     _socket_info->max_sd = _socket_info->server_socket->socket_fd;
 
     for (int i = 0, sd = 0; i < 1024; i++) {
-        sd = _socket_info->client_socket[i];
+        sd = _socket_info->client_socket[i]->socket_fd;
         if (sd > 0)
             FD_SET(sd, &rfds);
         if (sd > _socket_info->max_sd)

@@ -15,8 +15,8 @@ void initialyze_client_socket(socket_info_s *_socket_info, int new_socket)
     write(new_socket, "220 Service ready for new user.\n" , strlen("220 Service ready for new user.\n"));
 
     for (int i = 0; i < 1024; i++) {
-        if (_socket_info->client_socket[i] == 0) {
-            _socket_info->client_socket[i] = new_socket;
+        if (_socket_info->client_socket[i]->socket_fd == 0) {
+            _socket_info->client_socket[i]->socket_fd = new_socket;
             printf("Adding to list of sockets as %d\n", i);
             break;
         }

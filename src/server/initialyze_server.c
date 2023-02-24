@@ -57,7 +57,8 @@ void initialyze_server(socket_info_s *_socket_info, char *port)
     initialyze_queue(_socket_info);
 
     for (int i = 0; i < 1024; i++) {
-        _socket_info->client_socket[i] = 0;
+        _socket_info->client_socket[i] = malloc(sizeof(socket_s));
+        _socket_info->client_socket[i]->socket_fd = 0;
     }
 
     _socket_info->addrlen = sizeof(_socket_info->address);

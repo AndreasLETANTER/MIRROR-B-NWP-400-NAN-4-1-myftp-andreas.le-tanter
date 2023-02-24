@@ -14,7 +14,7 @@ void handle_client_socket(socket_info_s *_socket_info, fd_set rfds)
     char buffer[1024] = { 0 };
 
     for (int i = 0, sd = 0; i < 1024; i++) {
-        sd = _socket_info->client_socket[i];
+        sd = _socket_info->client_socket[i]->socket_fd;
 
         if (FD_ISSET(sd, &rfds)) {
             valread = read(sd, buffer, 1024);
