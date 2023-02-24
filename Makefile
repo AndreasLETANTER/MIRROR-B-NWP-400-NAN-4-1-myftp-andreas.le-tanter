@@ -13,7 +13,12 @@ SRC			=	src/server/initialyze_server.c \
 				src/client/initialyze_client.c \
 				src/client/client_connection.c \
 				src/client/client_handling.c \
-				src/client_commands/function_pointer.c \
+				src/client_commands/commands_engine.c \
+				src/client_commands/data_mode_commands.c \
+				src/client_commands/data_transfer_commands.c \
+				src/client_commands/directory_handling_commands.c \
+				src/client_commands/user_login_commands.c \
+				src/client_commands/other_commands.c \
 
 MAIN 		=	src/main.c
 

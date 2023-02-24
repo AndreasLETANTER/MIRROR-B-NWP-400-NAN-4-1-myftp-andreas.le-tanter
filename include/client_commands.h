@@ -8,3 +8,24 @@
 #pragma once
 
 int seekCommand(char *userInput, int sd);
+void handleUSERCommand();
+void handlePASSCommand();
+void handleQUITCommand();
+void handleCWDCommand();
+void handleCDUPCommand();
+void handlePWDCommand();
+void handleDELECommand();
+void handleLISTCommand();
+void handleRETRCommand();
+void handleSTORCommand();
+void handleCWDCommand();
+void handleCDUPCommand();
+void handlePWDCommand();
+void handleDELECommand();
+void handleLISTCommand();
+void handleRETRCommand();
+void handleSTORCommand();
+void handleNOOPCommand();
+void handleHELPCommand();
+void handlePASVCommand();
+void handlePORTCommand();
