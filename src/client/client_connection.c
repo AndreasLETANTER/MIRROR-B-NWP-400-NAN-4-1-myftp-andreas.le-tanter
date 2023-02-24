@@ -7,6 +7,7 @@
 
 #include "server_connection.h"
 #include "client_handling.h"
+#include "client_commands.h"
 
 void check_client_deconnection(int sd, int valread,
     socket_info_s *_socket_info, int i)
@@ -20,5 +21,6 @@ void check_client_deconnection(int sd, int valread,
 void check_client_interaction(char *buffer, int valread, int sd)
 {
     buffer[valread] = '\0';
-    write(sd, buffer, strlen(buffer));
+    buffer[strlen(buffer) - 2] = '\0';
+    seekCommand(buffer, sd);
 }

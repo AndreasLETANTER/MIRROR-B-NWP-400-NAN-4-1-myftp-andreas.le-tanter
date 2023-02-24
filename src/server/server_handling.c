@@ -10,8 +10,9 @@
 
 void shutdown_server(socket_info_s *_socket_info)
 {
-    close(_socket_info->server_fd);
-    shutdown(_socket_info->server_fd, SHUT_RDWR);
+    close(_socket_info->server_socket->socket_fd);
+    shutdown(_socket_info->server_socket->socket_fd, SHUT_RDWR);
+    free(_socket_info->server_socket);
 }
 
 void server_engine(char *port)
@@ -25,7 +26,7 @@ void server_engine(char *port)
 
 void handle_server_socket(socket_info_s *_socket_info)
 {
-    int new_socket = accept(_socket_info->server_fd,
+    int new_socket = accept(_socket_info->server_socket->socket_fd,
         (struct sockaddr*) &_socket_info->address, &_socket_info->addrlen);
     char buff[1024] = { 0 };
 

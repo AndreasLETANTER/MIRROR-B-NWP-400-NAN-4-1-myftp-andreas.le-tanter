@@ -19,7 +19,7 @@ void handling_connections(socket_info_s *_socket_info, fd_set rfds)
         exit(EXIT_FAILURE);
     }
 
-    if (FD_ISSET(_socket_info->server_fd, &rfds)) {
+    if (FD_ISSET(_socket_info->server_socket->socket_fd, &rfds)) {
         handle_server_socket(_socket_info);
     }
 
@@ -31,8 +31,8 @@ void accept_connection(socket_info_s *_socket_info)
     fd_set rfds;
 
     FD_ZERO(&rfds);
-    FD_SET(_socket_info->server_fd, &rfds);
-    _socket_info->max_sd = _socket_info->server_fd;
+    FD_SET(_socket_info->server_socket->socket_fd, &rfds);
+    _socket_info->max_sd = _socket_info->server_socket->socket_fd;
 
     for (int i = 0, sd = 0; i < 1024; i++) {
         sd = _socket_info->client_socket[i];
@@ -50,5 +50,4 @@ void seek_connection(socket_info_s *_socket_info)
     while (1) {
         accept_connection(_socket_info);
     }
-
 }

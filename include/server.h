@@ -15,8 +15,21 @@
 #include <unistd.h>
 #include <sys/select.h>
 
+enum {
+    DATASOCKET = 0,
+    CLIENTSOCKET = 1,
+    SERVERSOCKET = 2
+};
+
+typedef struct socket_t {
+    int socket_fd;
+    int socket_type;
+    char *current_user;
+    char *current_pswd;
+} socket_s;
+
 typedef struct socket_info_t {
-    int server_fd;
+    struct socket_t *server_socket;
     struct sockaddr_in address;
     int addrlen;
     int client_socket[1024];

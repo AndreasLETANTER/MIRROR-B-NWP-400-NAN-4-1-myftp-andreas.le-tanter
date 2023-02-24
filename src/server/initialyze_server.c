@@ -33,7 +33,7 @@ void bind_socket(socket_info_s *_socket_info, int port)
     address.sin_addr.s_addr = htonl(INADDR_ANY);
     address.sin_port = htons(port);
 
-    if (bind(_socket_info->server_fd,
+    if (bind(_socket_info->server_socket->socket_fd,
         (struct sockaddr*) &address, sizeof(address)) < 0) {
         perror("bind failed\n");
         exit(EXIT_FAILURE);
@@ -43,7 +43,7 @@ void bind_socket(socket_info_s *_socket_info, int port)
 
 void initialyze_queue(socket_info_s *_socket_info)
 {
-    if (listen(_socket_info->server_fd, 3) < 0) {
+    if (listen(_socket_info->server_socket->socket_fd, 3) < 0) {
         perror("listen failed\n");
         exit(EXIT_FAILURE);
     }
@@ -51,7 +51,8 @@ void initialyze_queue(socket_info_s *_socket_info)
 
 void initialyze_server(socket_info_s *_socket_info, char *port)
 {
-    _socket_info->server_fd = create_socket();
+    _socket_info->server_socket = malloc(sizeof(socket_s));
+    _socket_info->server_socket->socket_fd = create_socket();
     bind_socket(_socket_info, atoi(port));
     initialyze_queue(_socket_info);
 
@@ -60,5 +61,5 @@ void initialyze_server(socket_info_s *_socket_info, char *port)
     }
 
     _socket_info->addrlen = sizeof(_socket_info->address);
-    printf("Server started on port %s", port);
+    printf("Server started on port %s\n", port);
 }
