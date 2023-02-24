@@ -8,6 +8,19 @@
 #include "server.h"
 #include "client_connection.h"
 
+char *getClientAdress(int sd)
+{
+    struct sockaddr_in address;
+    char *clientIp;
+    int res;
+
+    socklen_t address_size = sizeof(struct sockaddr_in);
+    res = getpeername(sd, (struct sockaddr *)&address, &address_size);
+    clientIp = strdup(inet_ntoa(address.sin_addr));
+
+    return (clientIp);
+}
+
 void handle_client_socket(socket_info_s *_socket_info, fd_set rfds)
 {
     int valread = 0;
@@ -20,7 +33,7 @@ void handle_client_socket(socket_info_s *_socket_info, fd_set rfds)
             valread = read(sd, buffer, 1024);
 
             check_client_deconnection(sd, valread, _socket_info, i);
-            check_client_interaction(buffer, valread, sd);
+            check_client_interaction(buffer, valread, sd, _socket_info);
         }
     }
 }

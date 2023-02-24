@@ -9,3 +9,4 @@
 #include "server.h"
 
 void handle_client_socket(socket_info_s *_socket_info, fd_set rfds);
+char *getClientAdress(int sd);
