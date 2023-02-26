@@ -7,7 +7,7 @@
 
 #pragma once
 
-int seekCommand(char *userInput, int sd);
+int seekCommand(char *userInput, int sd, socket_info_s *_socket_info);
 void handleUSERCommand();
 void handlePASSCommand();
 void handleQUITCommand();
@@ -27,5 +27,5 @@ void handleRETRCommand();
 void handleSTORCommand();
 void handleNOOPCommand();
 void handleHELPCommand();
-void handlePASVCommand();
+void handlePASVCommand(int sd, socket_info_s *_socket_info);
 void handlePORTCommand();

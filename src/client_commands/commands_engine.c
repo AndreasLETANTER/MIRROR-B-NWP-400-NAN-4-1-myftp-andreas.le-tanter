@@ -8,6 +8,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdio.h>
+#include "server.h"
 #include "client_commands.h"
 
 const char *COMMAND_NAME[] = {
@@ -32,12 +33,12 @@ void (*ftpCommands[])() = {
     handleLISTCommand
 };
 
-int seekCommand(char *userInput, int sd)
+int seekCommand(char *userInput, int sd, socket_info_s *_socket_info)
 {
     for (int i = 0; COMMAND_NAME[i] != 0; i++) {
         if (strcmp(COMMAND_NAME[i], userInput) == 0) {
             write(sd, "200 Command okay.\n", strlen("200 Command okay.\n"));
-            ftpCommands[i]();
+            ftpCommands[i](sd, _socket_info);
             return (0);
         }
     }

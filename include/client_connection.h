@@ -10,4 +10,4 @@
 
 void check_client_deconnection(int sd, int valread,
     socket_info_s *_socket_info, int i);
-void check_client_interaction(char *buffer, int valread, int sd);
+void check_client_interaction(char *buffer, int valread, int sd, socket_info_s *_socket_info);
