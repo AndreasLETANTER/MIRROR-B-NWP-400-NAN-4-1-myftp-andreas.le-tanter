@@ -10,11 +10,26 @@
 #include <string.h>
 #include <unistd.h>
 
-int bind_data_socket(int data_sd, char *clientAdress)
+void displayIpandPort(struct sockaddr_in address, int sd)
+{
+    unsigned char *p = (unsigned char *) &address.sin_addr.s_addr;
+    int p1 = p[0];
+    int p2 = p[1];
+    int p3 = p[2];
+    int p4 = p[3];
+    int port = ntohs(address.sin_port);
+    int port_high_byte = port / 256;
+    int port_low_byte = port % 256;
+    char response[50];
+
+    sprintf(response, "227 Entering Passive Mode (%d,%d,%d,%d,%d,%d)\n", p1, p2, p3, p4, port_high_byte, port_low_byte);
+    write(sd, response, strlen(response));
+}
+
+int bind_data_socket(int sd, int data_sd, char *clientAdress)
 {
     struct sockaddr_in address;
 
-    
     inet_pton(AF_INET, clientAdress, &(address.sin_addr));
     address.sin_port = htons(0);
 
@@ -23,7 +38,10 @@ int bind_data_socket(int data_sd, char *clientAdress)
         perror("bind failed\n");
         exit(EXIT_FAILURE);
     }
-    printf("port number %d\n", ntohs(address.sin_port));
+    socklen_t len = sizeof(address);
+    getsockname(data_sd, (struct sockaddr *) &address, &len);
+
+    displayIpandPort(address, sd);
 
     listen(data_sd, 3);
     return (data_sd);
@@ -31,13 +49,11 @@ int bind_data_socket(int data_sd, char *clientAdress)
 
 void handlePASVCommand(int sd, socket_info_s *_socket_info)
 {
-    write(1, "PASV command\n", strlen("PASV command\n"));
     int data_sd = create_socket();
     char *clientIp = getClientAdress(sd);
 
-    data_sd = bind_data_socket(data_sd, clientIp);
-    
-    write(sd, clientIp, strlen(clientIp));
+    data_sd = bind_data_socket(sd, data_sd, clientIp);
+
     free(clientIp);
 }
 
