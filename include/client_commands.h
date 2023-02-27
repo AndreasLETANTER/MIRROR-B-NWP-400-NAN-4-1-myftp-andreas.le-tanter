@@ -7,25 +7,25 @@
 
 #pragma once
 
-int seekCommand(char *userInput, int sd, socket_info_s *_socket_info);
-void handleUSERCommand();
-void handlePASSCommand();
-void handleQUITCommand();
-void handleCWDCommand();
-void handleCDUPCommand();
-void handlePWDCommand();
-void handleDELECommand();
-void handleLISTCommand();
-void handleRETRCommand();
-void handleSTORCommand();
-void handleCWDCommand();
-void handleCDUPCommand();
-void handlePWDCommand();
-void handleDELECommand();
-void handleLISTCommand();
-void handleRETRCommand();
-void handleSTORCommand();
-void handleNOOPCommand();
-void handleHELPCommand();
-void handlePASVCommand(int sd, socket_info_s *_socket_info);
-void handlePORTCommand();
+int seekcommand(char *userInput, int sd, socket_info_s *_socket_info);
+void handle_user_command(int sd, socket_info_s *_socket_info);
+void handle_pass_command(int sd, socket_info_s *_socket_info);
+void handle_quit_command(int sd, socket_info_s *_socket_info);
+void handle_cwd_command(int sd, socket_info_s *_socket_info);
+void handle_cdup_command(int sd, socket_info_s *_socket_info);
+void handle_pwd_command(int sd, socket_info_s *_socket_info);
+void handle_dele_command(int sd, socket_info_s *_socket_info);
+void handle_list_command(int sd, socket_info_s *_socket_info);
+void handle_retr_command(int sd, socket_info_s *_socket_info);
+void handle_stor_command(int sd, socket_info_s *_socket_info);
+void handle_cwd_command(int sd, socket_info_s *_socket_info);
+void handle_cdup_command(int sd, socket_info_s *_socket_info);
+void handle_pwd_command(int sd, socket_info_s *_socket_info);
+void handle_dele_command(int sd, socket_info_s *_socket_info);
+void handle_list_command(int sd, socket_info_s *_socket_info);
+void handle_retr_command(int sd, socket_info_s *_socket_info);
+void handle_stor_command(int sd, socket_info_s *_socket_info);
+void handle_noop_command(int sd, socket_info_s *_socket_info);
+void handle_help_command(int sd, socket_info_s *_socket_info);
+void handle_pasv_command(int sd, socket_info_s *_socket_info);
+void handle_port_command(int sd, socket_info_s *_socket_info);

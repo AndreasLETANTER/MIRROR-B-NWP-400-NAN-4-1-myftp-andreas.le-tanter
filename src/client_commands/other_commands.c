@@ -7,13 +7,14 @@
 
 #include <string.h>
 #include <unistd.h>
+#include "server.h"
 
-void handleHELPCommand()
+void handle_help_command(int sd, socket_info_s *_socket_info)
 {
     write(1, "HELP command\n", strlen("HELP command\n"));
 }
 
-void handleNOOPCommand()
+void handle_noop_command(int sd, socket_info_s *_socket_info)
 {
     write(1, "NOOP command\n", strlen("NOOP command\n"));
 }

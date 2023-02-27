@@ -10,7 +10,7 @@
 #include <string.h>
 #include <unistd.h>
 
-void displayIpandPort(struct sockaddr_in address, int sd)
+void displayipandport(struct sockaddr_in address, int sd)
 {
     unsigned char *p = (unsigned char *) &address.sin_addr.s_addr;
     int p1 = p[0];
@@ -22,7 +22,8 @@ void displayIpandPort(struct sockaddr_in address, int sd)
     int port_low_byte = port % 256;
     char response[50];
 
-    sprintf(response, "227 Entering Passive Mode (%d,%d,%d,%d,%d,%d)\n", p1, p2, p3, p4, port_high_byte, port_low_byte);
+    sprintf(response, "227 Entering Passive Mode (%d,%d,%d,%d,%d,%d)\n",
+        p1, p2, p3, p4, port_high_byte, port_low_byte);
     write(sd, response, strlen(response));
 }
 
@@ -41,23 +42,31 @@ int bind_data_socket(int sd, int data_sd, char *clientAdress)
     socklen_t len = sizeof(address);
     getsockname(data_sd, (struct sockaddr *) &address, &len);
 
-    displayIpandPort(address, sd);
+    displayipandport(address, sd);
 
     listen(data_sd, 3);
     return (data_sd);
 }
 
-void handlePASVCommand(int sd, socket_info_s *_socket_info)
+void handle_pasv_command(int sd, socket_info_s *_socket_info)
 {
     int data_sd = create_socket();
-    char *clientIp = getClientAdress(sd);
+    char *clientIp = getclientadress(sd);
 
     data_sd = bind_data_socket(sd, data_sd, clientIp);
+
+    for (int i = 0; i < 1024; i++) {
+        if (_socket_info->client_socket[i]->socket_fd == 0) {
+            _socket_info->client_socket[i]->socket_fd = data_sd;
+            _socket_info->client_socket[i]->socket_type = CLIENTSOCKET;
+            break;
+        }
+    }
 
     free(clientIp);
 }
 
-void handlePORTCommand()
+void handle_port_command(int sd, socket_info_s *_socket_info)
 {
     write(1, "PORT command\n", strlen("PORT command\n"));
 }

@@ -7,18 +7,19 @@
 
 #include <string.h>
 #include <unistd.h>
+#include "server.h"
 
-void handleUSERCommand()
+void handle_user_command(int sd, socket_info_s *_socket_info)
 {
     write(1, "USER command\n", strlen("USER command\n"));
 }
 
-void handlePASSCommand()
+void handle_pass_command(int sd, socket_info_s *_socket_info)
 {
     write(1, "PASS command\n", strlen("PASS command\n"));
 }
 
-void handleQUITCommand()
+void handle_quit_command(int sd, socket_info_s *_socket_info)
 {
     write(1, "QUIT command\n", strlen("QUIT command\n"));
 }

@@ -17,23 +17,23 @@ const char *COMMAND_NAME[] = {
 };
 
 void (*ftpCommands[])() = {
-    handleUSERCommand,
-    handlePASSCommand,
-    handleCWDCommand,
-    handleCDUPCommand,
-    handleQUITCommand,
-    handleDELECommand,
-    handlePWDCommand,
-    handlePASVCommand,
-    handlePORTCommand,
-    handleHELPCommand,
-    handleNOOPCommand,
-    handleRETRCommand,
-    handleSTORCommand,
-    handleLISTCommand
+    handle_user_command,
+    handle_pass_command,
+    handle_cwd_command,
+    handle_cdup_command,
+    handle_quit_command,
+    handle_dele_command,
+    handle_pwd_command,
+    handle_pasv_command,
+    handle_port_command,
+    handle_help_command,
+    handle_noop_command,
+    handle_retr_command,
+    handle_stor_command,
+    handle_list_command
 };
 
-int seekCommand(char *userInput, int sd, socket_info_s *_socket_info)
+int seekcommand(char *userInput, int sd, socket_info_s *_socket_info)
 {
     for (int i = 0; COMMAND_NAME[i] != 0; i++) {
         if (strcmp(COMMAND_NAME[i], userInput) == 0) {
@@ -42,6 +42,7 @@ int seekCommand(char *userInput, int sd, socket_info_s *_socket_info)
             return (0);
         }
     }
-    write(sd, "xxx Error (RFC compliant)\n", strlen("xxx Error (RFC compliant)\n"));
+    write(sd, "xxx Error (RFC compliant)\n",
+        strlen("xxx Error (RFC compliant)\n"));
     return (84);
 }

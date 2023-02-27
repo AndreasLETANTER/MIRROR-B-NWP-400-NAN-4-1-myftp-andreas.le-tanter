@@ -18,8 +18,9 @@ void check_client_deconnection(int sd, int valread,
     }
 }
 
-void check_client_interaction(char *buffer, int valread, int sd, socket_info_s *_socket_info)
+void check_client_interaction(char *buffer, int valread, int sd,
+    socket_info_s *_socket_info)
 {
     buffer[strlen(buffer) - 2] = '\0';
-    seekCommand(buffer, sd, _socket_info);
+    seekcommand(buffer, sd, _socket_info);
 }

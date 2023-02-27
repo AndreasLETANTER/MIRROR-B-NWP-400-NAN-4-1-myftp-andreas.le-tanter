@@ -8,7 +8,7 @@
 #include "server.h"
 #include "client_connection.h"
 
-char *getClientAdress(int sd)
+char *getclientadress(int sd)
 {
     struct sockaddr_in address;
     char *clientIp;
