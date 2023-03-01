@@ -40,7 +40,8 @@ void send_data(int sd, socket_info_s *_socket_info, char *filecontent)
     close(data_socket);
     remove_data(_socket_info, sd);
 
-    custom_write(sd, "226 Closing data connection. Requested file action successful.\n");
+    custom_write(sd, "226 Closing data connection. \
+        Requested file action successful.\n");
 }
 
 void retr_engine(int sd, socket_info_s *_socket_info, char *arg)
