@@ -6,6 +6,7 @@
 */
 
 #include "server.h"
+#include "data_connection.h"
 #include "client_handling.h"
 #include <string.h>
 #include <unistd.h>
@@ -25,6 +26,8 @@ void displayipandport(struct sockaddr_in address, int sd)
     sprintf(response, "227 Entering Passive Mode (%d,%d,%d,%d,%d,%d)\n",
         p1, p2, p3, p4, port_high_byte, port_low_byte);
     write(sd, response, strlen(response));
+    sprintf(response, "\033[1;34m[DEBUG]: Data port is %d\033[0m\n", port);
+    write(2, response, strlen(response));
 }
 
 int bind_data_socket(int sd, int data_sd, char *clientAdress)
@@ -44,7 +47,7 @@ int bind_data_socket(int sd, int data_sd, char *clientAdress)
 
     displayipandport(address, sd);
 
-    listen(data_sd, 3);
+    listen(data_sd, 1);
     return (data_sd);
 }
 
@@ -58,10 +61,13 @@ void handle_pasv_command(int sd, socket_info_s *_socket_info)
     for (int i = 0; i < 1024; i++) {
         if (_socket_info->client_socket[i]->socket_fd == 0) {
             _socket_info->client_socket[i]->socket_fd = data_sd;
-            _socket_info->client_socket[i]->socket_type = CLIENTSOCKET;
+            _socket_info->client_socket[i]->socket_type = DATASOCKET;
             break;
         }
     }
+
+    if (fork() == 0)
+        seek_data_socket_entrance(_socket_info, data_sd);
 
     free(clientIp);
 }
