@@ -10,3 +10,6 @@
 
 void handle_client_socket(socket_info_s *_socket_info, fd_set rfds);
 char *getclientadress(int sd);
+int get_data_client(socket_info_s *_socket_info, int sd);
+int get_data_socket(socket_info_s *_socket_info, int sd);
+void remove_data(socket_info_s *_socket_info, int sd);

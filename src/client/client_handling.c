@@ -37,3 +37,34 @@ void handle_client_socket(socket_info_s *_socket_info, fd_set rfds)
         }
     }
 }
+
+void remove_data(socket_info_s *_socket_info, int sd)
+{
+    for (int i = 0; i < 1024; i++) {
+        if (_socket_info->client_socket[i]->socket_fd == sd) {
+            _socket_info->client_socket[i]->socket_fd = 0;
+            _socket_info->client_socket[i]->socket_type = 0;
+            break;
+        }
+    }
+}
+
+int get_data_socket(socket_info_s *_socket_info, int sd)
+{
+    for (int i = 0; i < 1024; i++) {
+        if (_socket_info->client_socket[i]->socket_fd == sd) {
+            return (_socket_info->client_socket[i]->data_socket);
+        }
+    }
+    return (-1);
+}
+
+int get_data_client(socket_info_s *_socket_info, int sd)
+{
+    for (int i = 0; i < 1024; i++) {
+        if (_socket_info->client_socket[i]->socket_fd == sd) {
+            return (_socket_info->client_socket[i]->data_client);
+        }
+    }
+    return (-1);
+}
