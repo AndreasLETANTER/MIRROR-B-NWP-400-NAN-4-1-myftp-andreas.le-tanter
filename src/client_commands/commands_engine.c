@@ -35,10 +35,13 @@ void (*ftpCommands[])() = {
 
 int seekcommand(char *userInput, int sd, socket_info_s *_socket_info)
 {
+    char *command = strtok(userInput, " ");
+    char *arg = strtok(NULL, " ");
+
     for (int i = 0; COMMAND_NAME[i] != 0; i++) {
-        if (strcmp(COMMAND_NAME[i], userInput) == 0) {
+        if (strcmp(COMMAND_NAME[i], command) == 0) {
             write(sd, "200 Command okay.\n", strlen("200 Command okay.\n"));
-            ftpCommands[i](sd, _socket_info);
+            ftpCommands[i](sd, _socket_info, arg);
             return (0);
         }
     }

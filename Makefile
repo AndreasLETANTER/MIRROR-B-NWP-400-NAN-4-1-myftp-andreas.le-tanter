@@ -19,7 +19,6 @@ SRC			=	src/server/initialyze_server.c \
 				src/client_commands/directory_handling_commands.c \
 				src/client_commands/user_login_commands.c \
 				src/client_commands/other_commands.c \
-				src/data/data_connection.c \
 
 MAIN 		=	src/main.c
 

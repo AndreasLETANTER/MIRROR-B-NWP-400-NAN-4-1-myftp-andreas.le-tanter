@@ -9,17 +9,17 @@
 #include <unistd.h>
 #include "server.h"
 
-void handle_cwd_command(int sd, socket_info_s *_socket_info)
+void handle_cwd_command(int sd, socket_info_s *_socket_info, char *arg)
 {
     write(1, "CWD command\n", strlen("CWD command\n"));
 }
 
-void handle_cdup_command(int sd, socket_info_s *_socket_info)
+void handle_cdup_command(int sd, socket_info_s *_socket_info, char *arg)
 {
     write(1, "CDUP command\n", strlen("CDUP command\n"));
 }
 
-void handle_pwd_command(int sd, socket_info_s *_socket_info)
+void handle_pwd_command(int sd, socket_info_s *_socket_info, char *arg)
 {
     write(1, "PWD command\n", strlen("PWD command\n"));
 }

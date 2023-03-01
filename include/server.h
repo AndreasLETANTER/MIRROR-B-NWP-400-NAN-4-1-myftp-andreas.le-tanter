@@ -24,6 +24,7 @@ enum {
 typedef struct socket_t {
     int socket_fd;
     int socket_type;
+    int data_socket;
     char *current_user;
     char *current_pswd;
 } socket_s;

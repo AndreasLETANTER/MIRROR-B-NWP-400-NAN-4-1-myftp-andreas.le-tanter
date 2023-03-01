@@ -6,7 +6,6 @@
 */
 
 #include "server.h"
-#include "data_connection.h"
 #include "client_handling.h"
 #include <string.h>
 #include <unistd.h>
@@ -30,12 +29,12 @@ void displayipandport(struct sockaddr_in address, int sd)
     write(2, response, strlen(response));
 }
 
-int bind_data_socket(int sd, int data_sd, char *clientAdress)
+int bind_data_socket(int sd, int data_sd, char *clientAdress, int socket)
 {
     struct sockaddr_in address;
 
     inet_pton(AF_INET, clientAdress, &(address.sin_addr));
-    address.sin_port = htons(0);
+    address.sin_port = htons(socket);
 
     if (bind(data_sd,
         (struct sockaddr*) &address, sizeof(address)) < 0) {
@@ -51,28 +50,28 @@ int bind_data_socket(int sd, int data_sd, char *clientAdress)
     return (data_sd);
 }
 
-void handle_pasv_command(int sd, socket_info_s *_socket_info)
+void handle_pasv_command(int sd, socket_info_s *_socket_info, char *arg)
 {
     int data_sd = create_socket();
     char *clientIp = getclientadress(sd);
 
-    data_sd = bind_data_socket(sd, data_sd, clientIp);
+    if (arg != NULL)
+        write(sd, "xxx Error (RFC compliant)\n",
+        strlen("xxx Error (RFC compliant)\n"));
+
+    data_sd = bind_data_socket(sd, data_sd, clientIp, 0);
 
     for (int i = 0; i < 1024; i++) {
-        if (_socket_info->client_socket[i]->socket_fd == 0) {
-            _socket_info->client_socket[i]->socket_fd = data_sd;
-            _socket_info->client_socket[i]->socket_type = DATASOCKET;
+        if (_socket_info->client_socket[i]->socket_fd == sd) {
+            _socket_info->client_socket[i]->data_socket = data_sd;
             break;
         }
     }
 
-    if (fork() == 0)
-        seek_data_socket_entrance(_socket_info, data_sd);
-
     free(clientIp);
 }
 
-void handle_port_command(int sd, socket_info_s *_socket_info)
+void handle_port_command(int sd, socket_info_s *_socket_info, char *arg)
 {
     write(1, "PORT command\n", strlen("PORT command\n"));
 }
