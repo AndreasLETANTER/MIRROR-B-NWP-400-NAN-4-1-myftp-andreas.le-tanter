@@ -25,6 +25,7 @@ typedef struct socket_t {
     int socket_fd;
     int socket_type;
     int data_socket;
+    int data_client;
     char *current_user;
     char *current_pswd;
 } socket_s;
@@ -41,3 +42,4 @@ int create_socket(void);
 void bind_socket(socket_info_s *_socket_info, int port);
 void initialyze_queue(socket_info_s *_socket_info);
 void initialyze_server(socket_info_s *_socket_info, char *port);
+int custom_write(int fd, const char *str);

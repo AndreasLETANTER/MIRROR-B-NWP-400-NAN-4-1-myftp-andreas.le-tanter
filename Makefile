@@ -7,7 +7,8 @@
 
 #################ALL SRC##################
 
-SRC			=	src/server/initialyze_server.c \
+SRC			=	src/server/custom_write.c \
+				src/server/initialyze_server.c \
 				src/server/server_connection.c \
 				src/server/server_handling.c \
 				src/client/initialyze_client.c \
@@ -19,6 +20,7 @@ SRC			=	src/server/initialyze_server.c \
 				src/client_commands/directory_handling_commands.c \
 				src/client_commands/user_login_commands.c \
 				src/client_commands/other_commands.c \
+				src/client_commands/retr_command_tools.c \
 
 MAIN 		=	src/main.c
 

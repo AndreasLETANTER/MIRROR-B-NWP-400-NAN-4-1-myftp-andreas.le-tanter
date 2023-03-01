@@ -32,7 +32,7 @@ void handle_server_socket(socket_info_s *_socket_info)
 
     if (new_socket == -1) {
         perror("accept() failed");
-        exit(EXIT_FAILURE);
+        exit(84);
     }
 
     initialyze_client_socket(_socket_info, new_socket);

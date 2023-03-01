@@ -16,7 +16,7 @@ void handling_connections(socket_info_s *_socket_info, fd_set rfds)
 
     if (activity == -1) {
         perror("select() failed");
-        exit(EXIT_FAILURE);
+        exit(84);
     }
 
     if (FD_ISSET(_socket_info->server_socket->socket_fd, &rfds)) {

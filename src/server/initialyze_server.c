@@ -19,7 +19,7 @@ int create_socket(void)
     if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, (char *)&opt,
         sizeof(opt)) < 0) {
         perror("setsockopt failed");
-        exit(EXIT_FAILURE);
+        exit(84);
     }
 
     return server_fd;
@@ -36,7 +36,7 @@ void bind_socket(socket_info_s *_socket_info, int port)
     if (bind(_socket_info->server_socket->socket_fd,
         (struct sockaddr*) &address, sizeof(address)) < 0) {
         perror("bind failed\n");
-        exit(EXIT_FAILURE);
+        exit(84);
     }
     _socket_info->address = address;
 }
@@ -45,7 +45,7 @@ void initialyze_queue(socket_info_s *_socket_info)
 {
     if (listen(_socket_info->server_socket->socket_fd, 3) < 0) {
         perror("listen failed\n");
-        exit(EXIT_FAILURE);
+        exit(84);
     }
 }
 

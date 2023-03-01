@@ -42,8 +42,8 @@ void remove_data(socket_info_s *_socket_info, int sd)
 {
     for (int i = 0; i < 1024; i++) {
         if (_socket_info->client_socket[i]->socket_fd == sd) {
-            _socket_info->client_socket[i]->socket_fd = 0;
-            _socket_info->client_socket[i]->socket_type = 0;
+            _socket_info->client_socket[i]->socket_fd = -1;
+            _socket_info->client_socket[i]->socket_type = -1;
             break;
         }
     }

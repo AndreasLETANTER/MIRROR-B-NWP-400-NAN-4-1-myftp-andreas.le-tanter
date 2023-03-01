@@ -21,7 +21,11 @@ void handle_list_command(int sd, socket_info_s *_socket_info, char *arg)
 
 void handle_retr_command(int sd, socket_info_s *_socket_info, char *arg)
 {
-    write(1, "RETR command\n", strlen("RETR command\n"));
+    for (int i = 0; i < 1024; i++) {
+        if (_socket_info->client_socket[i]->socket_fd == sd) {
+            retr_engine(sd, _socket_info, arg);
+        }
+    }
 }
 
 void handle_stor_command(int sd, socket_info_s *_socket_info, char *arg)

@@ -39,7 +39,7 @@ int bind_data_socket(int sd, int data_sd, char *clientAdress, int socket)
     if (bind(data_sd,
         (struct sockaddr*) &address, sizeof(address)) < 0) {
         perror("bind failed\n");
-        exit(EXIT_FAILURE);
+        exit(84);
     }
     socklen_t len = sizeof(address);
     getsockname(data_sd, (struct sockaddr *) &address, &len);
@@ -50,23 +50,38 @@ int bind_data_socket(int sd, int data_sd, char *clientAdress, int socket)
     return (data_sd);
 }
 
+void seek_data_connection(socket_info_s *_socket_info, int data_sd, int sd)
+{
+    int new_socket = accept(data_sd,
+        (struct sockaddr*) &_socket_info->address, &_socket_info->addrlen);
+    char buff[1024] = { 0 };
+
+    if (new_socket == -1) {
+        perror("accept() failed");
+        exit(84);
+    }
+
+    for (int i = 0; i < 1024; i++) {
+        if (_socket_info->client_socket[i]->socket_fd == sd) {
+            _socket_info->client_socket[i]->data_socket = data_sd;
+            _socket_info->client_socket[i]->data_client = new_socket;
+            break;
+        }
+    }
+}
+
 void handle_pasv_command(int sd, socket_info_s *_socket_info, char *arg)
 {
     int data_sd = create_socket();
     char *clientIp = getclientadress(sd);
 
     if (arg != NULL)
-        write(sd, "xxx Error (RFC compliant)\n",
-        strlen("xxx Error (RFC compliant)\n"));
+        custom_write(sd, "xxx Error (RFC compliant)\n");
 
     data_sd = bind_data_socket(sd, data_sd, clientIp, 0);
 
-    for (int i = 0; i < 1024; i++) {
-        if (_socket_info->client_socket[i]->socket_fd == sd) {
-            _socket_info->client_socket[i]->data_socket = data_sd;
-            break;
-        }
-    }
+    if (fork() == 0)
+        seek_data_connection(_socket_info, data_sd, sd);
 
     free(clientIp);
 }
