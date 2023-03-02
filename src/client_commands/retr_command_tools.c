@@ -69,10 +69,14 @@ int check_error(int sd, socket_info_s *_socket_info, char *arg)
 void retr_engine(int sd, socket_info_s *_socket_info, char *arg)
 {
     char *filecontent = NULL;
+    char *path;
 
     if (check_error(sd, _socket_info, arg) == -1)
         return;
-
+    
+    path = malloc(sizeof(char) * strlen(_socket_info->current_directory) + strlen(arg) + 1);
+    strcat(path, _socket_info->current_directory);
+    strcat(path, arg);
     filecontent = open_file(arg);
     if (filecontent == NULL) {
         custom_write(sd, "550 Requested action not taken. \

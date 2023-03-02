@@ -11,7 +11,7 @@
 int main (int argc, char **argv)
 {
     if (argc == 3) {
-        server_engine(argv[1]);
+        server_engine(argv[1], argv[2]);
         return (0);
     }
     return (84);
