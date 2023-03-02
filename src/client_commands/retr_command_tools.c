@@ -49,15 +49,18 @@ int check_error(int sd, socket_info_s *_socket_info, char *arg)
 {
     int data_socket = get_data_socket(_socket_info, sd);
     int data_client = get_data_client(_socket_info, sd);
+    char *nextparam = strtok(NULL, " ");
 
     if (data_socket == -1 || data_client == -1) {
         custom_write(sd, "425 Can't open data connection\n");
-        remove_data(_socket_info, sd);
+        return -1;
+    }
+    if (nextparam != NULL) {
+        custom_write(sd, "504 Command not implemented for that parameter.\n");
         return -1;
     }
     if (arg == NULL) {
         custom_write(sd, "550 please specify a file to retrieve\n");
-        remove_data(_socket_info, sd);
         return -1;
     }
     return 0;
