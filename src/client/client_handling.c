@@ -30,7 +30,7 @@ void handle_client_socket(socket_info_s *_socket_info, fd_set rfds)
         sd = _socket_info->client_socket[i]->socket_fd;
 
         if (_socket_info->client_socket[i]->socket_type
-            == CLIENTSOCKET && FD_ISSET(sd, &rfds)) {
+                == CLIENTSOCKET && FD_ISSET(sd, &rfds)) {
             valread = read(sd, buffer, 1024);
 
             check_client_deconnection(sd, valread, _socket_info, i);

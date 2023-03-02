@@ -44,7 +44,7 @@ TEST_NAME	=	unit_test
 
 CC			=	gcc
 
-CFLAGS 		= 	 -I./include #-fprofile-arcs -ftest-coverage
+CFLAGS 		= 	 -I./include -g #-fprofile-arcs -ftest-coverage
 
 TESTS_FLAGS = 	--coverage -lcriterion
 

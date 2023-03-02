@@ -8,6 +8,7 @@
 #include "initialyze_client.h"
 #include "server_connection.h"
 #include <string.h>
+#include <unistd.h>
 
 void shutdown_server(socket_info_s *_socket_info)
 {

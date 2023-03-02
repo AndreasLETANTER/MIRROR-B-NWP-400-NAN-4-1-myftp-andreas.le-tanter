@@ -23,7 +23,7 @@ char *open_file(char *filepath)
 
     stat(filepath, &size);
     filecontent = malloc(sizeof(char) * size.st_size + 1);
-    filecontent[0] = '\0';
+    filecontent[size.st_size] = '\0';
     read(open_file, filecontent, size.st_size);
     close(open_file);
     return (filecontent);
@@ -70,20 +70,19 @@ void retr_engine(int sd, socket_info_s *_socket_info, char *arg)
 {
     char *filecontent = NULL;
     char *path;
-
     if (check_error(sd, _socket_info, arg) == -1)
         return;
 
     path = malloc(sizeof(char) * strlen(_socket_info->current_directory)
         + strlen(arg) + 1);
-    strcat(path, _socket_info->current_directory);
-    strcat(path, arg);
-    filecontent = open_file(arg);
+    path[0] = '\0';
+    path = strcat(path, _socket_info->current_directory);
+    path = strcat(path, arg);
+    filecontent = open_file(path);
     free(path);
     if (filecontent == NULL) {
         custom_write(sd, "550 Requested action not taken. \
 File unavailable\n");
-        remove_data(_socket_info, sd);
         return;
     }
     send_data(sd, _socket_info, filecontent);

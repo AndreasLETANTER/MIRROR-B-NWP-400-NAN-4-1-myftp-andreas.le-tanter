@@ -33,6 +33,7 @@ int bind_data_socket(int sd, int data_sd, char *clientAdress, int socket)
 {
     struct sockaddr_in address;
 
+    address.sin_family = AF_INET;
     inet_pton(AF_INET, clientAdress, &(address.sin_addr));
     address.sin_port = htons(socket);
 
