@@ -76,7 +76,7 @@ void handle_pasv_command(int sd, socket_info_s *_socket_info, char *arg)
     char *clientIp = getclientadress(sd);
 
     if (arg != NULL)
-        custom_write(sd, "xxx Error (RFC compliant)\n");
+        custom_write(sd, "504 Command not implemented for that parameter.\n");
 
     data_sd = bind_data_socket(sd, data_sd, clientIp, 0);
 
