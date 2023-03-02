@@ -92,5 +92,17 @@ void handle_pasv_command(int sd, socket_info_s *_socket_info, char *arg)
 
 void handle_port_command(int sd, socket_info_s *_socket_info, char *arg)
 {
-    write(1, "PORT command\n", strlen("PORT command\n"));
+    int data_sd = create_socket();
+    char *clientIp = getclientadress(sd);
+    int port = atoi(arg);
+
+    if (port == -1)
+        custom_write(sd, "504 Command not implemented for that parameter.\n");
+
+    data_sd = bind_data_socket(sd, data_sd, clientIp, port);
+
+    if (fork() == 0)
+        seek_data_connection(_socket_info, data_sd, sd);
+
+    free(clientIp);
 }

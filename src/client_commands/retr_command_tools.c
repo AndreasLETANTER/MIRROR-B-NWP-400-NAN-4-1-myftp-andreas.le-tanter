@@ -73,8 +73,8 @@ void retr_engine(int sd, socket_info_s *_socket_info, char *arg)
     if (check_error(sd, _socket_info, arg) == -1)
         return;
 
-    path = malloc(sizeof(char) * strlen(_socket_info->current_directory)
-        + strlen(arg) + 1);
+    path = malloc(sizeof(char) * (strlen(_socket_info->current_directory)
+        + strlen(arg)) + 1);
     path[0] = '\0';
     path = strcat(path, _socket_info->current_directory);
     path = strcat(path, arg);

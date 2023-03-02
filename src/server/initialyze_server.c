@@ -51,6 +51,7 @@ void initialyze_queue(socket_info_s *_socket_info)
 
 void initialyze_server(socket_info_s *_socket_info, char *port)
 {
+    char buff[1024] = { 0 };
     _socket_info->server_socket = malloc(sizeof(socket_s));
     _socket_info->server_socket->socket_fd = create_socket();
     _socket_info->server_socket->socket_type = SERVERSOCKET;
@@ -66,5 +67,6 @@ void initialyze_server(socket_info_s *_socket_info, char *port)
     }
 
     _socket_info->addrlen = sizeof(_socket_info->address);
-    printf("Server started on port %s\n", port);
+    sprintf(buff, "\033[1;34mServer started on port %s\n\033[0m", port);
+    write(2, buff, strlen(buff));
 }
