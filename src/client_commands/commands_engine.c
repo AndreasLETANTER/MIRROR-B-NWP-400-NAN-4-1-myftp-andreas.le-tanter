@@ -44,6 +44,6 @@ int seekcommand(char *userInput, int sd, socket_info_s *_socket_info)
             return (0);
         }
     }
-    custom_write(sd, "xxx Error (RFC compliant)\n");
+    custom_write(sd, "502 Command not implemented.\n");
     return (84);
 }

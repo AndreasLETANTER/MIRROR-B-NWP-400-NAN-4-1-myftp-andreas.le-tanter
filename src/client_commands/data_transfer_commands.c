@@ -8,6 +8,7 @@
 #include <string.h>
 #include <unistd.h>
 #include "server.h"
+#include "client_commands.h"
 
 void handle_dele_command(int sd, socket_info_s *_socket_info, char *arg)
 {
