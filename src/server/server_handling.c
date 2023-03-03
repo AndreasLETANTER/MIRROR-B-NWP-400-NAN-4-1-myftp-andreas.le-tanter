@@ -15,7 +15,6 @@ void shutdown_server(socket_info_s *_socket_info)
     close(_socket_info->server_socket->socket_fd);
     shutdown(_socket_info->server_socket->socket_fd, SHUT_RDWR);
     free(_socket_info->base_directory);
-    free(_socket_info->current_directory);
     free(_socket_info->server_socket);
 }
 
@@ -23,20 +22,13 @@ void initialyze_path(socket_info_s *_socket_info, char *base_directory)
 {
     _socket_info->base_directory = malloc(sizeof(char)
         * strlen(base_directory) + 2);
-    _socket_info->current_directory = malloc(sizeof(char)
-        * strlen(base_directory) + 2);
     _socket_info->base_directory[0] = '\0';
-    _socket_info->current_directory[0] = '\0';
 
     _socket_info->base_directory = strcat(_socket_info->base_directory,
-        base_directory);
-    _socket_info->current_directory = strcat(_socket_info->current_directory,
         base_directory);
     if (base_directory[strlen(base_directory) - 1] != '/')
         _socket_info->base_directory =
             strcat(_socket_info->base_directory, "/");
-        _socket_info->current_directory = strcat(
-            _socket_info->current_directory, "/");
 }
 
 void server_engine(char *port, char *base_directory)

@@ -8,13 +8,15 @@
 #include "server_connection.h"
 #include "client_handling.h"
 #include "client_commands.h"
+#include "initialyze_client.h"
 
 void check_client_deconnection(int sd, int valread,
     socket_info_s *_socket_info, int i)
 {
     if (valread == 0) {
         close(sd);
-        _socket_info->client_socket[i]->socket_fd = 0;
+        reset_client(_socket_info, i, 0);
+        free(_socket_info->client_socket[i]->current_directory);
     }
 }
 

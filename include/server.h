@@ -26,6 +26,7 @@ typedef struct socket_t {
     int socket_type;
     int data_socket;
     int data_client;
+    char *current_directory;
     char *current_user;
     char *current_pswd;
 } socket_s;
@@ -35,7 +36,6 @@ typedef struct socket_info_t {
     struct socket_t *server_socket;
     struct sockaddr_in address;
     char *base_directory;
-    char *current_directory;
     int addrlen;
     int max_sd;
 } socket_info_s;
