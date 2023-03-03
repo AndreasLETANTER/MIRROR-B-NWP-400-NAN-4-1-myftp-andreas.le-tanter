@@ -23,8 +23,19 @@ void server_engine(char *port, char *base_directory)
 {
     struct socket_info_t _socket_info;
 
-    _socket_info.base_directory = strdup(base_directory);
-    _socket_info.current_directory = strdup(base_directory);
+    _socket_info.base_directory = malloc(sizeof(char) * strlen(base_directory) + 2);
+    _socket_info.current_directory = malloc(sizeof(char) * strlen(base_directory) + 2);
+    _socket_info.base_directory[0] = '\0';
+    _socket_info.current_directory[0] = '\0';
+
+    _socket_info.base_directory = strcat(_socket_info.base_directory, base_directory);
+    _socket_info.current_directory = strcat(_socket_info.current_directory, base_directory);
+    if (base_directory[strlen(base_directory) - 1] != '/')
+        _socket_info.base_directory = strcat(_socket_info.base_directory, "/");
+        _socket_info.current_directory = strcat(_socket_info.current_directory, "/");
+    
+    strlen(_socket_info.base_directory);
+
     initialyze_server(&_socket_info, port);
     seek_connection(&_socket_info);
     shutdown_server(&_socket_info);
