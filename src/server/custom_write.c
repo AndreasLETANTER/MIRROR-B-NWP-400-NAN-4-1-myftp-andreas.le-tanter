@@ -10,5 +10,10 @@
 
 int custom_write(int fd, const char *str)
 {
+
+    write(2, "\033[1;34m", strlen("\033[1;34m"));
+    write(2, str, strlen(str));
+    write(2, "\033[0m", strlen("\033[0m\n"));
+
     return (write(fd, str, strlen(str)));
 }
