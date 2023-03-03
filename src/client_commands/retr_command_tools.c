@@ -26,6 +26,7 @@ char *open_file(char *filepath)
     filecontent[size.st_size] = '\0';
     read(open_file, filecontent, size.st_size);
     close(open_file);
+    free(filepath);
     return (filecontent);
 }
 
@@ -66,23 +67,29 @@ int check_error(int sd, socket_info_s *_socket_info, char *arg)
     return 0;
 }
 
-void retr_engine(int sd_idx, socket_info_s *_socket_info, char *arg)
+char *create_path(char *current_directory, char *arg)
 {
-    int sd = _socket_info->client_socket[sd_idx]->socket_fd;
-    char *current_directory =
-        _socket_info->client_socket[sd_idx]->current_directory;
-    char *filecontent = NULL;
     char *path;
-    if (check_error(sd, _socket_info, arg) == -1)
-        return;
 
     path = malloc(sizeof(char) * (strlen(current_directory)
         + strlen(arg)) + 1);
     path[0] = '\0';
     path = strcat(path, current_directory);
     path = strcat(path, arg);
+}
+
+void retr_engine(int sd_idx, socket_info_s *_socket_info, char *arg)
+{
+    int sd = _socket_info->client_socket[sd_idx]->socket_fd;
+    char *current_directory =
+        _socket_info->client_socket[sd_idx]->current_directory;
+    char *filecontent = NULL;
+    char *path = NULL;
+
+    if (check_error(sd, _socket_info, arg) == -1)
+        return;
+    path = create_path(current_directory, arg);
     filecontent = open_file(path);
-    free(path);
     if (filecontent == NULL) {
         custom_write(sd, "550 Requested action not taken. \
 File unavailable\n");

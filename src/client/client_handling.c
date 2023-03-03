@@ -6,6 +6,7 @@
 */
 
 #include "server.h"
+#include <stdbool.h>
 #include "client_connection.h"
 
 char *getclientadress(int sd)
@@ -33,7 +34,6 @@ void handle_client_socket(socket_info_s *_socket_info, fd_set rfds)
                 == CLIENTSOCKET && FD_ISSET(sd, &rfds)) {
             valread = read(sd, buffer, 1024);
 
-            check_client_deconnection(sd, valread, _socket_info, i);
             check_client_interaction(buffer, valread, i, _socket_info);
         }
     }

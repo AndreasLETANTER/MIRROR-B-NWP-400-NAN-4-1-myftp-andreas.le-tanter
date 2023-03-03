@@ -22,7 +22,6 @@ void handling_connections(socket_info_s *_socket_info, fd_set rfds)
     if (FD_ISSET(_socket_info->server_socket->socket_fd, &rfds)) {
         handle_server_socket(_socket_info);
     }
-
     handle_client_socket(_socket_info, rfds);
 }
 
