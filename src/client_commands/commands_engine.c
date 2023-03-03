@@ -33,14 +33,15 @@ void (*ftpCommands[])() = {
     handle_list_command
 };
 
-int seekcommand(char *userInput, int sd, socket_info_s *_socket_info)
+int seekcommand(char *userInput, int sd_idx, socket_info_s *_socket_info)
 {
+    int sd = _socket_info->client_socket[sd_idx]->socket_fd;
     char *command = strtok(userInput, " ");
     char *arg = strtok(NULL, " ");
 
     for (int i = 0; COMMAND_NAME[i] != 0; i++) {
         if (strcmp(COMMAND_NAME[i], command) == 0) {
-            ftpCommands[i](sd, _socket_info, arg);
+            ftpCommands[i](sd_idx, _socket_info, arg);
             return (0);
         }
     }

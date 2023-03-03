@@ -66,8 +66,9 @@ int check_error(int sd, socket_info_s *_socket_info, char *arg)
     return 0;
 }
 
-void retr_engine(int sd, socket_info_s *_socket_info, char *arg)
+void retr_engine(int sd_idx, socket_info_s *_socket_info, char *arg)
 {
+    int sd = _socket_info->client_socket[sd_idx]->socket_fd;
     char *filecontent = NULL;
     char *path;
     if (check_error(sd, _socket_info, arg) == -1)

@@ -34,7 +34,7 @@ void handle_client_socket(socket_info_s *_socket_info, fd_set rfds)
             valread = read(sd, buffer, 1024);
 
             check_client_deconnection(sd, valread, _socket_info, i);
-            check_client_interaction(buffer, valread, sd, _socket_info);
+            check_client_interaction(buffer, valread, i, _socket_info);
         }
     }
 }

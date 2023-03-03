@@ -74,8 +74,9 @@ Data connection established\033[0m\n", i);
     }
 }
 
-void handle_pasv_command(int sd, socket_info_s *_socket_info, char *arg)
+void handle_pasv_command(int sd_idx, socket_info_s *_socket_info, char *arg)
 {
+    int sd = _socket_info->client_socket[sd_idx]->socket_fd;
     int data_sd = create_socket();
     char *clientIp = getclientadress(sd);
 
@@ -90,16 +91,17 @@ void handle_pasv_command(int sd, socket_info_s *_socket_info, char *arg)
     free(clientIp);
 }
 
-void handle_port_command(int sd, socket_info_s *_socket_info, char *arg)
+void handle_port_command(int sd_idx, socket_info_s *_socket_info, char *arg)
 {
+    int sd = _socket_info->client_socket[sd_idx]->socket_fd;
     int data_sd = create_socket();
     char *clientIp = getclientadress(sd);
     int port = atoi(arg);
 
-    if (port == -1)
+    if (port == -1 || arg != NULL)
         custom_write(sd, "504 Command not implemented for that parameter.\n");
 
-    data_sd = bind_data_socket(sd, data_sd, clientIp, port);
+    data_sd = bind_data_socket(sd, data_sd, clientIp, 0);
 
     if (fork() == 0)
         seek_data_connection(_socket_info, data_sd, sd);
