@@ -12,6 +12,7 @@ void reset_client(socket_info_s *_socket_info, int sd_idx, int new_socket)
     _socket_info->client_socket[sd_idx]->socket_fd = new_socket;
     _socket_info->client_socket[sd_idx]->data_client = -1;
     _socket_info->client_socket[sd_idx]->data_socket = -1;
+    _socket_info->client_socket[sd_idx]->is_logged = false;
     _socket_info->client_socket[sd_idx]->socket_type = CLIENTSOCKET;
 }
 
