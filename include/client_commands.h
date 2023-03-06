@@ -31,3 +31,4 @@ void handle_pasv_command(int sd, socket_info_s *_socket_info, char *arg);
 void handle_port_command(int sd, socket_info_s *_socket_info, char *arg);
 
 void retr_engine(int sd, socket_info_s *_socket_info, char *arg);
+void quit_engine(int sd_idx, socket_info_s *_socket_info, char *arg);

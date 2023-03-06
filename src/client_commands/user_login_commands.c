@@ -8,6 +8,7 @@
 #include <string.h>
 #include <unistd.h>
 #include "server.h"
+#include "client_commands.h"
 
 void handle_user_command(int sd_idx, socket_info_s *_socket_info, char *arg)
 {
@@ -27,5 +28,5 @@ void handle_quit_command(int sd_idx, socket_info_s *_socket_info, char *arg)
 {
     int sd = _socket_info->client_socket[sd_idx]->socket_fd;
 
-    write(1, "QUIT command\n", strlen("QUIT command\n"));
+    quit_engine(sd_idx, _socket_info, arg);
 }
