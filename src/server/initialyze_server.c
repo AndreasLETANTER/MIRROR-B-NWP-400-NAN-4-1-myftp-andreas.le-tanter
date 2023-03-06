@@ -6,6 +6,7 @@
 */
 
 #include "server.h"
+#include "initialyze_client.h"
 
 int create_socket(void)
 {
@@ -34,7 +35,7 @@ void bind_socket(socket_info_s *_socket_info, int port)
     address.sin_port = htons(port);
 
     if (bind(_socket_info->server_socket->socket_fd,
-        (struct sockaddr*) &address, sizeof(address)) < 0) {
+        (struct sockaddr *)&address, sizeof(address)) < 0) {
         perror("bind failed\n");
         exit(84);
     }
@@ -51,7 +52,7 @@ void initialyze_queue(socket_info_s *_socket_info)
 
 void initialyze_server(socket_info_s *_socket_info, char *port)
 {
-    char buff[1024] = { 0 };
+    char buff[1024] = {0};
     _socket_info->server_socket = malloc(sizeof(socket_s));
     _socket_info->server_socket->socket_fd = create_socket();
     _socket_info->server_socket->socket_type = SERVERSOCKET;
@@ -59,15 +60,7 @@ void initialyze_server(socket_info_s *_socket_info, char *port)
     initialyze_queue(_socket_info);
 
     for (int i = 0; i < 1024; i++) {
-        _socket_info->client_socket[i] = malloc(sizeof(socket_s));
-        _socket_info->client_socket[i]->socket_fd = 0;
-        _socket_info->client_socket[i]->data_client = 0;
-        _socket_info->client_socket[i]->data_socket = 0;
-        _socket_info->client_socket[i]->socket_type = -1;
-        _socket_info->client_socket[i]->is_logged = false;
-        _socket_info->client_socket[i]->current_user = NULL;
-        _socket_info->client_socket[i]->current_directory = NULL;
-        _socket_info->client_socket[i]->current_pswd = NULL;
+        init_all_clients_info(_socket_info, i);
     }
 
     _socket_info->addrlen = sizeof(_socket_info->address);
