@@ -14,8 +14,10 @@ void quit_engine(int sd_idx, socket_info_s *_socket_info, char *arg)
 {
     int sd = _socket_info->client_socket[sd_idx]->socket_fd;
 
-    if (arg != NULL)
+    if (arg != NULL) {
         custom_write(sd, "500 Syntax error, command unrecognized.\n");
+        return;
+    }
 
     custom_write(sd, "221 Service closing control connection.\n");
     close(sd);

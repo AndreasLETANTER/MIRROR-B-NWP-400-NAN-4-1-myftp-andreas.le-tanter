@@ -26,6 +26,20 @@ void handle_cdup_command(int sd_idx, socket_info_s *_socket_info, char *arg)
 void handle_pwd_command(int sd_idx, socket_info_s *_socket_info, char *arg)
 {
     int sd = _socket_info->client_socket[sd_idx]->socket_fd;
+    char *current_directory = malloc(sizeof(char) *
+        (strlen(_socket_info->client_socket[sd_idx]->current_directory) +
+            strlen("257 ") + 1) + 1);
 
-    write(1, "PWD command\n", strlen("PWD command\n"));
+    if (arg != NULL) {
+        custom_write(sd, "500 Syntax error, command unrecognized.\n");
+        free(current_directory);
+        return;
+    }
+    current_directory[0] = '\0';
+    current_directory = strcat(current_directory, "257 ");
+    current_directory = strcat(current_directory,
+        _socket_info->client_socket[sd_idx]->current_directory);
+    current_directory = strcat(current_directory, "\n");
+    custom_write(sd, current_directory);
+    free(current_directory);
 }
