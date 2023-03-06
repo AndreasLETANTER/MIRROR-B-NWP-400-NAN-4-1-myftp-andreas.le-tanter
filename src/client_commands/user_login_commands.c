@@ -38,7 +38,8 @@ void check_login(int sd_idx, socket_info_s *_socket_info)
     if (_socket_info->client_socket[sd_idx]->is_logged == true) {
         return;
     }
-    if (strcmp(_socket_info->client_socket[sd_idx]->current_user, "Anonymous") == 0 && _socket_info->client_socket[sd_idx]->current_pswd == NULL) {
+    if (strcmp(_socket_info->client_socket[sd_idx]->current_user, "Anonymous") == 0
+        && _socket_info->client_socket[sd_idx]->current_pswd == NULL) {
         _socket_info->client_socket[sd_idx]->is_logged = true;
         custom_write(_socket_info->client_socket[sd_idx]->socket_fd, "230 User logged in, proceed.\n");
     } else {

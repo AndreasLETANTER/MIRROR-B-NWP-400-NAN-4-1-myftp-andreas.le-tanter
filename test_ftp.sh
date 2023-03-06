@@ -6,7 +6,7 @@ if [ "$#" -ne 2 ]; then
 fi
 
 USERNAME="Anonymous"
-PASS=""
+PASS="q"
 
 HOST=$1
 PORT=$2

@@ -39,8 +39,10 @@ int seekcommand(char *userInput, int sd_idx, socket_info_s *_socket_info)
     char *command = strtok(userInput, " ");
     char *arg = strtok(NULL, " ");
 
-    if (is_logged(sd_idx, _socket_info) != true &&
-        strcmp(command, "USER") != 0 && strcmp(command, "PASS") != 0) {
+    if (command == NULL) {
+        return (84);
+    } else if (is_logged(sd_idx, _socket_info) != true &&
+        strcmp("USER", command) != 0 && strcmp(command, "PASS") != 0) {
         custom_write(sd, "530 Not logged in.\n");
         return (84);
     }
