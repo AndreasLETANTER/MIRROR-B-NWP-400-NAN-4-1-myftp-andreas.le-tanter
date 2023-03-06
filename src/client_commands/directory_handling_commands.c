@@ -19,8 +19,25 @@ void handle_cwd_command(int sd_idx, socket_info_s *_socket_info, char *arg)
 void handle_cdup_command(int sd_idx, socket_info_s *_socket_info, char *arg)
 {
     int sd = _socket_info->client_socket[sd_idx]->socket_fd;
+    char *display = malloc(sizeof(char) * (
+            strlen(_socket_info->client_socket[sd_idx]->current_directory)
+                + strlen("200 directory changed to ") + 1) + 1);
 
-    write(1, "CDUP command\n", strlen("CDUP command\n"));
+    if (arg != NULL) {
+        custom_write(sd, "500 Syntax error, command unrecognized.\n");
+        free(display);
+        return;
+    }
+    display[0] = '\0';
+    display = strcat(display, "200 directory changed to ");
+    display = strcat(display,
+        _socket_info->client_socket[sd_idx]->current_directory);
+    display = strcat(display, "\n");
+    free(_socket_info->base_directory);
+    _socket_info->base_directory =
+        strdup(_socket_info->client_socket[sd_idx]->current_directory);
+
+    custom_write(sd, "200 directory changed to .\n");
 }
 
 void handle_pwd_command(int sd_idx, socket_info_s *_socket_info, char *arg)
