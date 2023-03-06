@@ -97,11 +97,12 @@ void handle_port_command(int sd_idx, socket_info_s *_socket_info, char *arg)
     int data_sd = create_socket();
     char *clientIp = getclientadress(sd);
     int port = atoi(arg);
+    char *next_arg = strtok(NULL, " ");
 
-    if (port == -1 || arg != NULL)
+    if (port == -1 || next_arg != NULL)
         custom_write(sd, "504 Command not implemented for that parameter.\n");
 
-    data_sd = bind_data_socket(sd, data_sd, clientIp, 0);
+    data_sd = bind_data_socket(sd, data_sd, clientIp, atoi(arg));
 
     if (fork() == 0)
         seek_data_connection(_socket_info, data_sd, sd);
