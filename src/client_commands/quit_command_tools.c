@@ -20,7 +20,7 @@ void quit_engine(int sd_idx, socket_info_s *_socket_info, char *arg)
     }
 
     custom_write(sd, "221 Service closing control connection.\n");
-    close(sd);
+    close(_socket_info->client_socket[sd_idx]->socket_fd);
     reset_client(_socket_info, sd_idx, 0);
     free(_socket_info->client_socket[sd_idx]->current_directory);
 }
