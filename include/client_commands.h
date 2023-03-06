@@ -6,6 +6,7 @@
 */
 
 #pragma once
+#include <stdbool.h>
 
 int seekcommand(char *userInput, int sd, socket_info_s *_socket_info);
 void handle_user_command(int sd, socket_info_s *_socket_info, char *arg);
@@ -32,3 +33,4 @@ void handle_port_command(int sd, socket_info_s *_socket_info, char *arg);
 
 void retr_engine(int sd, socket_info_s *_socket_info, char *arg);
 void quit_engine(int sd_idx, socket_info_s *_socket_info, char *arg);
+bool is_logged(int sd_idx, socket_info_s *_socket_info);

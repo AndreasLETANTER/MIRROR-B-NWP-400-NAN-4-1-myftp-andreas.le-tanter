@@ -10,6 +10,14 @@
 #include "server.h"
 #include "client_commands.h"
 
+bool is_logged(int sd_idx, socket_info_s *_socket_info)
+{
+    if (_socket_info->client_socket[sd_idx]->is_logged == true) {
+        return (true);
+    }
+    return (false);
+}
+
 void handle_user_command(int sd_idx, socket_info_s *_socket_info, char *arg)
 {
     int sd = _socket_info->client_socket[sd_idx]->socket_fd;

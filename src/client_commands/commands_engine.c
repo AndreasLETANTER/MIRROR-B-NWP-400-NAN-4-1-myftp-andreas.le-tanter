@@ -39,6 +39,12 @@ int seekcommand(char *userInput, int sd_idx, socket_info_s *_socket_info)
     char *command = strtok(userInput, " ");
     char *arg = strtok(NULL, " ");
 
+    if (is_logged(sd_idx, _socket_info) != true &&
+        strcmp(command, "USER") != 0 && strcmp(command, "PASS") != 0) {
+        custom_write(sd, "530 Not logged in.\n");
+        return (84);
+    }
+
     for (int i = 0; COMMAND_NAME[i] != 0; i++) {
         if (strcmp(COMMAND_NAME[i], command) == 0) {
             ftpCommands[i](sd_idx, _socket_info, arg);
