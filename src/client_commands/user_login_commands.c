@@ -13,6 +13,16 @@
 void handle_user_command(int sd_idx, socket_info_s *_socket_info, char *arg)
 {
     int sd = _socket_info->client_socket[sd_idx]->socket_fd;
+    char *nextparam = strtok(NULL, " ");
+
+    if (nextparam != NULL) {
+        custom_write(sd, "504 Command not implemented for that parameter.\n");
+        return -1;
+    }
+    if (arg == NULL) {
+        custom_write(sd, "500 Syntax error, command unrecognized.\n");
+        return;
+    }
 
     _socket_info->client_socket[sd_idx]->current_user = strdup(arg);
     custom_write(sd, "331 User name okay, need password.\n");
