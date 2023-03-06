@@ -64,6 +64,7 @@ void initialyze_server(socket_info_s *_socket_info, char *port)
         _socket_info->client_socket[i]->data_client = 0;
         _socket_info->client_socket[i]->data_socket = 0;
         _socket_info->client_socket[i]->socket_type = -1;
+        _socket_info->client_socket[i]->is_logged = false;
     }
 
     _socket_info->addrlen = sizeof(_socket_info->address);

@@ -14,6 +14,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/select.h>
+#include <stdbool.h>
 
 enum {
     DATASOCKET = 0,
@@ -29,6 +30,7 @@ typedef struct socket_t {
     char *current_directory;
     char *current_user;
     char *current_pswd;
+    bool is_logged;
 } socket_s;
 
 typedef struct socket_info_t {
