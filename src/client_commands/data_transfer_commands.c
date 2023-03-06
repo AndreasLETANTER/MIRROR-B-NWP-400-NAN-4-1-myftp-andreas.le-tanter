@@ -10,11 +10,26 @@
 #include "server.h"
 #include "client_commands.h"
 
-void handle_dele_command(int sd_idx, socket_info_s *_socket_info, char *arg)
+void dele_engine(int sd_idx, socket_info_s *_socket_info, char *arg)
 {
     int sd = _socket_info->client_socket[sd_idx]->socket_fd;
+    char *next_arg = strtok(NULL, " ");
+    int return_value = 0;
 
-    write(1, "DELE command\n", strlen("DELE command\n"));
+    if (next_arg != NULL) {
+        custom_write(sd, "500 Syntax error, command unrecognized.\n");
+        return;
+    }
+    return_value = remove(arg);
+    if (return_value == 0)
+        custom_write(sd, "250 Requested file action okay, completed.\n");
+    else
+        custom_write(sd, "550 Requested action not taken.\n");
+}
+
+void handle_dele_command(int sd_idx, socket_info_s *_socket_info, char *arg)
+{
+    dele_engine(sd_idx, _socket_info, arg);
 }
 
 void handle_list_command(int sd_idx, socket_info_s *_socket_info, char *arg)
