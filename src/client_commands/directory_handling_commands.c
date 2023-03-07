@@ -36,7 +36,6 @@ void handle_cdup_command(int sd_idx, socket_info_s *_socket_info, char *arg)
     free(_socket_info->base_directory);
     _socket_info->base_directory =
         strdup(_socket_info->client_socket[sd_idx]->current_directory);
-
     custom_write(sd, display);
     free(display);
 }
