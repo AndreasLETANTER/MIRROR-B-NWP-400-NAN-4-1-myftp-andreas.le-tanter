@@ -34,15 +34,11 @@ void handle_dele_command(int sd_idx, socket_info_s *_socket_info, char *arg)
 
 void handle_list_command(int sd_idx, socket_info_s *_socket_info, char *arg)
 {
-    int sd = _socket_info->client_socket[sd_idx]->socket_fd;
-
-    write(1, "LIST command\n", strlen("LIST command\n"));
+    list_engine(sd_idx, _socket_info, arg);
 }
 
 void handle_retr_command(int sd_idx, socket_info_s *_socket_info, char *arg)
 {
-    int sd = _socket_info->client_socket[sd_idx]->socket_fd;
-
     retr_engine(sd_idx, _socket_info, arg);
 }
 

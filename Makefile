@@ -22,6 +22,7 @@ SRC			=	src/server/custom_write.c \
 				src/client_commands/other_commands.c \
 				src/client_commands/retr_command_tools.c \
 				src/client_commands/quit_command_tools.c \
+				src/client_commands/list_command_tools.c \
 
 MAIN 		=	src/main.c
 
