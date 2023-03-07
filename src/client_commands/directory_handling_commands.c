@@ -13,7 +13,18 @@ void handle_cwd_command(int sd_idx, socket_info_s *_socket_info, char *arg)
 {
     int sd = _socket_info->client_socket[sd_idx]->socket_fd;
 
-    write(1, "CWD command\n", strlen("CWD command\n"));
+    if (arg == NULL) {
+        custom_write(sd, "500 Syntax error, command unrecognized.\n");
+        return;
+    }
+    if (chdir(arg) == -1) {
+        custom_write(sd, "550 Failed to change directory.\n");
+        return;
+    }
+    free(_socket_info->client_socket[sd_idx]->current_directory);
+    _socket_info->client_socket[sd_idx]->current_directory
+        = strdup(getcwd(NULL, 0));
+    custom_write(sd, "250 Directory successfully changed.\n");
 }
 
 void handle_cdup_command(int sd_idx, socket_info_s *_socket_info, char *arg)
