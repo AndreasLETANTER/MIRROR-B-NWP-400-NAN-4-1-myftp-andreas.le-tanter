@@ -53,6 +53,6 @@ int seekcommand(char *userInput, int sd_idx, socket_info_s *_socket_info)
             return (0);
         }
     }
-    custom_write(sd, "502 Command not implemented.\n");
+    custom_write(sd, "500 Syntax error, command unrecognized.\n");
     return (84);
 }

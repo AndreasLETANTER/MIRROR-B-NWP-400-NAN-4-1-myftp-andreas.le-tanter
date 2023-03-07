@@ -357,7 +357,7 @@ test13()
   local cmd3="testeeqd"
   launch_test "$test_name" "$cmd1" 331
   launch_test "$test_name" "$cmd2" 230
-  launch_test "$test_name" "$cmd3" 502
+  launch_test "$test_name" "$cmd3" 500
 
   print_succeeded "$test_name"
   clean
