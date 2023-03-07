@@ -23,12 +23,25 @@ bool check_client_deconnection(int sd, int valread,
     return (false);
 }
 
+char *remove_non_printable(char *buffer)
+{
+    for (int i = strlen(buffer); i >= 0; i--) {
+        if (buffer[i] >= 32 && buffer[i] <= 126) {
+            break;
+        } else {
+            buffer[i] = '\0';
+        }
+    }
+    return (buffer);
+}
+
 void check_client_interaction(char *buffer, int valread, int sd_idx,
     socket_info_s *_socket_info)
 {
     if (check_client_deconnection(_socket_info->client_socket[sd_idx]->
         socket_fd, valread, _socket_info, sd_idx) == true)
         return;
-    buffer[strlen(buffer) - 2] = '\0';
+    
+    buffer = remove_non_printable(buffer);
     seekcommand(buffer, sd_idx, _socket_info);
 }

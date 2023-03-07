@@ -127,6 +127,7 @@ test00()
   launch_test "$test_name" "$cmd2" 530
 
   print_succeeded "$test_name"
+  clean
   return
 }
 
@@ -141,6 +142,7 @@ test01()
   launch_test "$test_name" "$cmd2" 230
 
   print_succeeded "$test_name"
+  clean
   return
 }
 
@@ -155,6 +157,7 @@ test02()
   launch_test "$test_name" "$cmd2" 530
 
   print_succeeded "$test_name"
+  clean
   return
 }
 
@@ -169,11 +172,224 @@ test03()
   launch_test "$test_name" "$cmd1" 331
 
   print_succeeded "$test_name"
+  clean
   return
 }
 
-#test00
+test04()
+{
+  init
+
+  local test_name="QUIT Command basic"
+  local cmd1="USER Anonymous"
+  local cmd2="PASS "
+  local cmd3="QUIT"
+  launch_test "$test_name" "$cmd1" 331
+  launch_test "$test_name" "$cmd2" 230
+  launch_test "$test_name" "$cmd3" 221
+
+  print_succeeded "$test_name"
+  clean
+  return
+}
+
+test05()
+{
+  init
+
+  local test_name="QUIT Command basic with not wanted param"
+  local cmd1="USER Anonymous"
+  local cmd2="PASS "
+  local cmd3="QUIT azeazeaze"
+  launch_test "$test_name" "$cmd1" 331
+  launch_test "$test_name" "$cmd2" 230
+  launch_test "$test_name" "$cmd3" 500
+
+  print_succeeded "$test_name"
+  clean
+  return
+}
+
+test06()
+{
+  init
+
+  local test_name="NOOP Command basic"
+  local cmd1="USER Anonymous"
+  local cmd2="PASS "
+  local cmd3="NOOP"
+  launch_test "$test_name" "$cmd1" 331
+  launch_test "$test_name" "$cmd2" 230
+  launch_test "$test_name" "$cmd3" 200
+
+  print_succeeded "$test_name"
+  clean
+  return
+}
+
+test07()
+{
+  init
+
+  local test_name="CDUP Command basic"
+  local cmd1="USER Anonymous"
+  local cmd2="PASS "
+  local cmd3="CDUP"
+  launch_test "$test_name" "$cmd1" 331
+  launch_test "$test_name" "$cmd2" 230
+  launch_test "$test_name" "$cmd3" 200
+
+  print_succeeded "$test_name"
+  clean
+  return
+}
+
+test07()
+{
+  init
+
+  local test_name="CDUP Command basic with not wanted param"
+  local cmd1="USER Anonymous"
+  local cmd2="PASS "
+  local cmd3="CDUP azeazeaze"
+  launch_test "$test_name" "$cmd1" 331
+  launch_test "$test_name" "$cmd2" 230
+  launch_test "$test_name" "$cmd3" 500
+
+  print_succeeded "$test_name"
+  clean
+  return
+}
+
+test08()
+{
+  init
+
+  local test_name="PWD Command basic with not wanted param"
+  local cmd1="USER Anonymous"
+  local cmd2="PASS "
+  local cmd3="PWD azeazeaze"
+  launch_test "$test_name" "$cmd1" 331
+  launch_test "$test_name" "$cmd2" 230
+  launch_test "$test_name" "$cmd3" 500
+
+  print_succeeded "$test_name"
+  clean
+  return
+}
+
+test09()
+{
+  init
+
+  local test_name="PWD Command basic"
+  local cmd1="USER Anonymous"
+  local cmd2="PASS "
+  local cmd3="PWD"
+  launch_test "$test_name" "$cmd1" 331
+  launch_test "$test_name" "$cmd2" 230
+  launch_test "$test_name" "$cmd3" 257
+
+  print_succeeded "$test_name"
+  clean
+  return
+}
+
+test10()
+{
+  init
+
+  local test_name="DELE Command basic"
+  touch tempDELE
+  local cmd1="USER Anonymous"
+  local cmd2="PASS "
+  local cmd3="DELE tempDELE"
+  launch_test "$test_name" "$cmd1" 331
+  launch_test "$test_name" "$cmd2" 230
+  launch_test "$test_name" "$cmd3" 250
+
+  print_succeeded "$test_name"
+  clean
+  return
+}
+
+test11()
+{
+  init
+
+  local test_name="DELE Command basic but no file"
+  local cmd1="USER Anonymous"
+  local cmd2="PASS "
+  local cmd3="DELE tempDELE"
+  launch_test "$test_name" "$cmd1" 331
+  launch_test "$test_name" "$cmd2" 230
+  launch_test "$test_name" "$cmd3" 550
+
+  print_succeeded "$test_name"
+  clean
+  return
+}
+
+test12()
+{
+  init
+
+  local test_name="DELE Command basic but not wanted param"
+  local cmd1="USER Anonymous"
+  local cmd2="PASS "
+  local cmd3="DELE tempDELE azeazeaze"
+  launch_test "$test_name" "$cmd1" 331
+  launch_test "$test_name" "$cmd2" 230
+  launch_test "$test_name" "$cmd3" 500
+
+  print_succeeded "$test_name"
+  clean
+  return
+}
+
+test13()
+{
+  init
+
+  local test_name="Bad Command"
+  local cmd1="USER Anonymous"
+  local cmd2="PASS "
+  local cmd3="testeeqd"
+  launch_test "$test_name" "$cmd1" 331
+  launch_test "$test_name" "$cmd2" 230
+  launch_test "$test_name" "$cmd3" 502
+
+  print_succeeded "$test_name"
+  clean
+  return
+}
+
+test14()
+{
+  init
+
+  local test_name="Command before login"
+  local cmd3="testeeqd"
+  launch_test "$test_name" "$cmd3" 530
+
+  print_succeeded "$test_name"
+  clean
+  return
+}
+
+test00
 test01
-#test02
-#test03
+test02
+test03
+test04
+test05
+test06
+test07
+test08
+test09
+test10
+test11
+test12
+test13
+test14
 clean
