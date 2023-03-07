@@ -377,6 +377,23 @@ test14()
   return
 }
 
+test15()
+{
+  init
+
+  local test_name="Only space"
+  local cmd1="USER Anonymous"
+  local cmd2="PASS "
+  local cmd3="      "
+  launch_test "$test_name" "$cmd1" 331
+  launch_test "$test_name" "$cmd2" 230
+  launch_test "$test_name" "$cmd3" 500
+
+  print_succeeded "$test_name"
+  clean
+  return
+}
+
 test00
 test01
 test02

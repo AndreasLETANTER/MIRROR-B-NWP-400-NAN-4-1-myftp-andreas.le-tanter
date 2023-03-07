@@ -35,6 +35,16 @@ char *remove_non_printable(char *buffer)
     return (buffer);
 }
 
+bool is_only_space(char *buffer)
+{
+    for (int i = 0; i < strlen(buffer) - 1; i++) {
+        if (buffer[i] != ' ') {
+            return (false);
+        }
+    }
+    return (true);
+}
+
 void check_client_interaction(char *buffer, int valread, int sd_idx,
     socket_info_s *_socket_info)
 {
@@ -43,5 +53,10 @@ void check_client_interaction(char *buffer, int valread, int sd_idx,
         return;
 
     buffer = remove_non_printable(buffer);
+    if (is_only_space(buffer) == true) {
+        custom_write(_socket_info->client_socket[sd_idx]->socket_fd,
+            "500 Syntax error, command unrecognized.\n");
+        return;
+    }
     seekcommand(buffer, sd_idx, _socket_info);
 }
