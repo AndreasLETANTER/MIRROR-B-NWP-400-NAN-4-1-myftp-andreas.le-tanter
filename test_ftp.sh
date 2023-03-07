@@ -394,6 +394,57 @@ test15()
   return
 }
 
+test16()
+{
+  init
+
+  local test_name="Basic CWD command"
+  local cmd1="USER Anonymous"
+  local cmd2="PASS "
+  local cmd3="CWD src/"
+  launch_test "$test_name" "$cmd1" 331
+  launch_test "$test_name" "$cmd2" 230
+  launch_test "$test_name" "$cmd3" 250
+
+  print_succeeded "$test_name"
+  clean
+  return
+}
+
+test17()
+{
+  init
+
+  local test_name="Basic CWD command with bad path"
+  local cmd1="USER Anonymous"
+  local cmd2="PASS "
+  local cmd3="CWD src/eazeaze"
+  launch_test "$test_name" "$cmd1" 331
+  launch_test "$test_name" "$cmd2" 230
+  launch_test "$test_name" "$cmd3" 550
+
+  print_succeeded "$test_name"
+  clean
+  return
+}
+
+test18()
+{
+  init
+
+  local test_name="Basic CWD command with .."
+  local cmd1="USER Anonymous"
+  local cmd2="PASS "
+  local cmd3="CWD .."
+  launch_test "$test_name" "$cmd1" 331
+  launch_test "$test_name" "$cmd2" 230
+  launch_test "$test_name" "$cmd3" 250
+
+  print_succeeded "$test_name"
+  clean
+  return
+}
+
 test00
 test01
 test02
@@ -409,4 +460,8 @@ test11
 test12
 test13
 test14
+test15
+test16
+test17
+test18
 clean
