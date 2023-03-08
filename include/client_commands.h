@@ -35,3 +35,4 @@ void retr_engine(int sd, socket_info_s *_socket_info, char *arg);
 void quit_engine(int sd_idx, socket_info_s *_socket_info, char *arg);
 bool is_logged(int sd_idx, socket_info_s *_socket_info);
 void list_engine(int sd_idx, socket_info_s *_socket_info, char *arg);
+void help_engine(int sd_idx, socket_info_s *_socket_info, char *arg);

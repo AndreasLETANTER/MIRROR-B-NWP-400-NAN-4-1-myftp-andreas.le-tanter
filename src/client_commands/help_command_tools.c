@@ -14,7 +14,7 @@ void handle_no_arg_help(int sd)
 {
     custom_write(sd, "214 here are the commands recognized :\
         \n\tUSER\n\tPASS\n\tCWD\n\tCDUP\n\tQUIT\n\tDELE\n\tPWD\
-        \n\tPASV\n\tPORT\n\tHELP\n\tNOOP\n\tRETR\n\tSTOR\n\tLIST\n");
+        \n\tPASV\n\tPORT\n\tHELP\n\tNOOP\n\tRETR\n\tSTOR\n\tLIST\n214\n");
 }
 
 void help_engine(int sd_idx, socket_info_s *_socket_info, char *arg)
