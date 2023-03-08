@@ -15,7 +15,7 @@ PIPE=fifo
 OUT=outfile
 TAIL=`which tail`
 NC="`which nc` -C"
-TIMEOUT=1 #max time before reading server response
+TIMEOUT=0 #max time before reading server response
 
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
