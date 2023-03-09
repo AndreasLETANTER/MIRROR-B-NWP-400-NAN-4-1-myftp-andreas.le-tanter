@@ -72,10 +72,12 @@ char *create_path(char *current_directory, char *arg)
     char *path;
 
     path = malloc(sizeof(char) * (strlen(current_directory)
-        + strlen(arg)) + 1);
+        + strlen(arg) + 1) + 1);
     path[0] = '\0';
     path = strcat(path, current_directory);
+    path = strcat(path, "/");
     path = strcat(path, arg);
+    return path;
 }
 
 void retr_engine(int sd_idx, socket_info_s *_socket_info, char *arg)
