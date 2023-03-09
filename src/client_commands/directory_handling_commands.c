@@ -31,7 +31,7 @@ void handle_cdup_command(int sd_idx, socket_info_s *_socket_info, char *arg)
 {
     int sd = _socket_info->client_socket[sd_idx]->socket_fd;
     char *display = malloc(sizeof(char) * (
-            strlen(_socket_info->client_socket[sd_idx]->current_directory)
+            strlen(_socket_info->base_directory)
                 + strlen("200 directory changed to ") + 1) + 1);
 
     if (arg != NULL) {
@@ -42,11 +42,11 @@ void handle_cdup_command(int sd_idx, socket_info_s *_socket_info, char *arg)
     display[0] = '\0';
     display = strcat(display, "200 directory changed to ");
     display = strcat(display,
-        _socket_info->client_socket[sd_idx]->current_directory);
+        _socket_info->base_directory);
     display = strcat(display, "\n");
-    free(_socket_info->base_directory);
-    _socket_info->base_directory =
-        strdup(_socket_info->client_socket[sd_idx]->current_directory);
+    free(_socket_info->client_socket[sd_idx]->current_directory);
+    _socket_info->client_socket[sd_idx]->current_directory =
+        strdup(_socket_info->base_directory);
     custom_write(sd, display);
     free(display);
 }
