@@ -36,14 +36,19 @@ void send_data(int sd, socket_info_s *_socket_info, char *filecontent)
     int data_client = get_data_client(_socket_info, sd);
 
     custom_write(sd, "150 File status okay; about to open data connection.\n");
-    write(data_client, filecontent, strlen(filecontent));
-    free(filecontent);
-    close(data_client);
-    close(data_socket);
-    remove_data(_socket_info, sd);
-
-    custom_write(sd, "226 Closing data connection. \
-Requested file action successful.\n");
+    if (fork() == 0) {
+        if (data_client == -1) {
+            data_client = accept(data_socket,
+        (struct sockaddr*) &_socket_info->address, &_socket_info->addrlen);
+        }
+        write(data_client, filecontent, strlen(filecontent));
+        free(filecontent);
+        close(data_client);
+        close(data_socket);
+        remove_data(_socket_info, sd);
+        custom_write(sd, "226 Closing data connection. \
+    Requested file action successful.\n");
+    }
 }
 
 int check_error(int sd, socket_info_s *_socket_info, char *arg)

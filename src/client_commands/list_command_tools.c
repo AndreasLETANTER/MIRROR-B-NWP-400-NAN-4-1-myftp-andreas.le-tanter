@@ -46,15 +46,23 @@ static int handle_execve(int sd, int data_sd, char **args)
 void list_engine(int sd_idx, socket_info_s *_socket_info, char *arg)
 {
     int sd = _socket_info->client_socket[sd_idx]->socket_fd;
-    int data_sd = _socket_info->client_socket[sd_idx]->data_client;
+    int data_socket = get_data_socket(_socket_info, sd);
+    int data_client = get_data_client(_socket_info, sd);
 
     char *args[4] = {"/bin/ls", "-l", arg, NULL};
 
     if (check_error(sd, _socket_info, arg) == -1)
         return;
     custom_write(sd, "125 Data connection already open; transfer starting.\n");
-    if (handle_execve(sd, data_sd, args) == -1)
-        return;
-    custom_write(sd, "226 Closing data connection.\n");
-    close(data_sd);
+    if (fork() == 0) {
+        if (data_client == -1) {
+            data_client = accept(data_socket,
+        (struct sockaddr*) &_socket_info->address, &_socket_info->addrlen);
+        }
+        if (handle_execve(sd, data_client, args) == -1)
+            return;
+        custom_write(sd, "226 Closing data connection.\n");
+        close(data_client);
+        close(data_socket);
+    }
 }
