@@ -445,6 +445,23 @@ test18()
   return
 }
 
+test19()
+{
+  init
+
+  local test_name="Basic PASV"
+  local cmd1="USER Anonymous"
+  local cmd2="PASS "
+  local cmd3="PASV"
+  launch_test "$test_name" "$cmd1" 331
+  launch_test "$test_name" "$cmd2" 230
+  launch_test "$test_name" "$cmd3" 227
+
+  print_succeeded "$test_name"
+  clean
+  return
+}
+
 test00
 test01
 test02
@@ -464,4 +481,5 @@ test15
 test16
 test17
 test18
+test19
 clean

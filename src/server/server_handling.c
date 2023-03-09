@@ -21,15 +21,12 @@ void shutdown_server(socket_info_s *_socket_info)
 
 void initialyze_path(socket_info_s *_socket_info, char *base_directory)
 {
-    _socket_info->base_directory = malloc(sizeof(char)
-        * strlen(base_directory) + 2);
-    _socket_info->base_directory[0] = '\0';
-
-    _socket_info->base_directory = strcat(_socket_info->base_directory,
-        base_directory);
-    if (base_directory[strlen(base_directory) - 1] != '/')
-        _socket_info->base_directory =
-            strcat(_socket_info->base_directory, "/");
+    if (chdir(base_directory) == -1) {
+        perror("Couldn't create path");
+        return;
+    }
+    _socket_info->base_directory
+        = strdup(getcwd(NULL, 0));
 }
 
 void check_for_good_path(char *base_directory)
