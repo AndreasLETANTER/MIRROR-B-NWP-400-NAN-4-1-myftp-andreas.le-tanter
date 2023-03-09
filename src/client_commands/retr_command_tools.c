@@ -24,7 +24,7 @@ char *open_file(char *filepath)
     stat(filepath, &size);
     filecontent = malloc(sizeof(char) * size.st_size + 1);
     filecontent[size.st_size] = '\0';
-    read(open_file, filecontent, size.st_size);
+    read(open_file, filecontent, size.st_size + 1);
     close(open_file);
     free(filepath);
     return (filecontent);
