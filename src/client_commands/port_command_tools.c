@@ -92,7 +92,7 @@ int bind_data_socket_port(int sd, int data_sd, char *clientAdress, int socket)
     }
     socklen_t len = sizeof(address);
     getsockname(data_sd, (struct sockaddr *) &address, &len);
-
+    custom_write(sd, "200 Command okay.\n");
     listen(data_sd, 1);
     return (data_sd);
 }
@@ -100,17 +100,22 @@ int bind_data_socket_port(int sd, int data_sd, char *clientAdress, int socket)
 void handle_port_command(int sd_idx, socket_info_s *_socket_info, char *arg)
 {
     int sd = _socket_info->client_socket[sd_idx]->socket_fd;
-    char *clientIp = parse_client_adress(arg);
-    int port = parse_port(arg);
+    char *clientIp = NULL;
+    int port = -1;
     int data_sd = create_socket();
     char *next_arg = strtok(NULL, " ");
 
+    if (arg == NULL) {
+        custom_write(sd, "504 Command not implemented for that parameter.\n");
+        return;
+    }
+    port = parse_port(arg);
+    clientIp = parse_client_adress(arg);
     if (port == -1 || next_arg != NULL || clientIp == NULL) {
         custom_write(sd, "504 Command not implemented for that parameter.\n");
         return;
     }
     data_sd = bind_data_socket_port(sd, data_sd, clientIp, port);
-    custom_write(sd, "200 Command okay.\n");
     if (fork() == 0)
         seek_data_connection(_socket_info, data_sd, sd);
     free(clientIp);
