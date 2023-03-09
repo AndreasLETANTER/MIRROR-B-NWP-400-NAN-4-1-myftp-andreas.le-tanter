@@ -9,63 +9,28 @@
 #include <stdbool.h>
 #include "client_connection.h"
 #include <stdio.h>
+#include "client_tools.h"
 
-char *getclientadress(int sd)
-{
-    struct sockaddr_in address;
-    char *clientIp;
-    int res;
-
-    socklen_t address_size = sizeof(struct sockaddr_in);
-    res = getpeername(sd, (struct sockaddr *)&address, &address_size);
-    clientIp = strdup(inet_ntoa(address.sin_addr));
-
-    return (clientIp);
-}
-
-void handle_client_socket(socket_info_s *_socket_info, fd_set rfds)
+void handle_buffer(int i, socket_info_s *_socket_info, int sd)
 {
     int valread = 0;
     char buffer[1024] = { 0 };
 
+    while (buffer[strlen(buffer) - 1] != '\n'
+        && buffer[strlen(buffer) - 2] != '\r') {
+        valread = read(sd, buffer + strlen(buffer), 1024);
+    }
+    check_client_interaction(buffer, valread, i, _socket_info);
+}
+
+void handle_client_socket(socket_info_s *_socket_info, fd_set rfds)
+{
     for (int i = 0, sd = 0; i < 1024; i++) {
         sd = _socket_info->client_socket[i]->socket_fd;
 
         if (_socket_info->client_socket[i]->socket_type
                 == CLIENTSOCKET && FD_ISSET(sd, &rfds)) {
-            valread = read(sd, buffer, 1024);
-            check_client_interaction(buffer, valread, i, _socket_info);
+            handle_buffer(i, _socket_info, sd);
         }
     }
-}
-
-void remove_data(socket_info_s *_socket_info, int sd)
-{
-    for (int i = 0; i < 1024; i++) {
-        if (_socket_info->client_socket[i]->socket_fd == sd) {
-            _socket_info->client_socket[i]->socket_fd = -1;
-            _socket_info->client_socket[i]->socket_type = -1;
-            break;
-        }
-    }
-}
-
-int get_data_socket(socket_info_s *_socket_info, int sd)
-{
-    for (int i = 0; i < 1024; i++) {
-        if (_socket_info->client_socket[i]->socket_fd == sd) {
-            return (_socket_info->client_socket[i]->data_socket);
-        }
-    }
-    return (-1);
-}
-
-int get_data_client(socket_info_s *_socket_info, int sd)
-{
-    for (int i = 0; i < 1024; i++) {
-        if (_socket_info->client_socket[i]->socket_fd == sd) {
-            return (_socket_info->client_socket[i]->data_client);
-        }
-    }
-    return (-1);
 }

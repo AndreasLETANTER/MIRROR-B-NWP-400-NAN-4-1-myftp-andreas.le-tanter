@@ -26,6 +26,7 @@ SRC			=	src/server/custom_write.c \
 				src/client_commands/help_command_tools.c \
 				src/client_commands/port_command_tools.c \
 				src/client_commands/stor_command_tools.c \
+				src/client/client_tools.c \
 
 MAIN 		=	src/main.c
 
