@@ -44,7 +44,5 @@ void handle_retr_command(int sd_idx, socket_info_s *_socket_info, char *arg)
 
 void handle_stor_command(int sd_idx, socket_info_s *_socket_info, char *arg)
 {
-    int sd = _socket_info->client_socket[sd_idx]->socket_fd;
-
-    write(1, "STOR command\n", strlen("STOR command\n"));
+    stor_engine(sd_idx, _socket_info, arg);
 }

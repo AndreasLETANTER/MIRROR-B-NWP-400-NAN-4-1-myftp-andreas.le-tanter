@@ -38,3 +38,4 @@ void list_engine(int sd_idx, socket_info_s *_socket_info, char *arg);
 void help_engine(int sd_idx, socket_info_s *_socket_info, char *arg);
 void handle_port_command(int sd_idx, socket_info_s *_socket_info, char *arg);
 void seek_data_connection(socket_info_s *_socket_info, int data_sd, int sd);
+void stor_engine(int sd_idx, socket_info_s *_socket_info, char *arg);

@@ -42,7 +42,6 @@ void send_data(int sd, socket_info_s *_socket_info, char *filecontent)
         (struct sockaddr*) &_socket_info->address, &_socket_info->addrlen);
         }
         write(data_client, filecontent, strlen(filecontent));
-        write(data_client, "\n", 1);
         free(filecontent);
         close(data_client);
         close(data_socket);
