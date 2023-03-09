@@ -64,7 +64,6 @@ void seek_data_connection(socket_info_s *_socket_info, int data_sd, int sd)
 
     for (int i = 0; i < 1024; i++) {
         if (_socket_info->client_socket[i]->socket_fd == sd) {
-            _socket_info->client_socket[i]->data_socket = data_sd;
             _socket_info->client_socket[i]->data_client = new_socket;
             sprintf(buff, "\033[1;34m[CLIENT %i][DEBUG]: \
 Data connection established\033[0m\n", i);
@@ -84,6 +83,7 @@ void handle_pasv_command(int sd_idx, socket_info_s *_socket_info, char *arg)
         custom_write(sd, "504 Command not implemented for that parameter.\n");
 
     data_sd = bind_data_socket(sd, data_sd, clientIp, 0);
+     _socket_info->client_socket[sd_idx]->data_socket = data_sd;
 
     if (fork() == 0)
         seek_data_connection(_socket_info, data_sd, sd);

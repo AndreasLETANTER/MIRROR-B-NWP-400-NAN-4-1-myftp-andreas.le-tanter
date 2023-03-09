@@ -17,7 +17,11 @@ static int check_error(int sd, socket_info_s *_socket_info, char *arg)
     int data_socket = get_data_socket(_socket_info, sd);
     int data_client = get_data_client(_socket_info, sd);
 
-    if (data_socket == -1 || data_client == -1) {
+    if (data_socket == -1) {
+        custom_write(sd, "503 Bad sequence of commands\n");
+        return -1;
+    }
+    if (data_client == -1) {
         custom_write(sd, "425 Can't open data connection\n");
         return -1;
     }
