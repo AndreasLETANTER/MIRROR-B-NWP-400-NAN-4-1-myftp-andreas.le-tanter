@@ -56,10 +56,6 @@ int check_error(int sd, socket_info_s *_socket_info, char *arg)
         custom_write(sd, "503 Bad sequence of commands\n");
         return -1;
     }
-    if (data_client == -1) {
-        custom_write(sd, "425 Can't open data connection\n");
-        return -1;
-    }
     if (nextparam != NULL) {
         custom_write(sd, "504 Command not implemented for that parameter.\n");
         return -1;
