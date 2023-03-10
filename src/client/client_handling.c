@@ -15,9 +15,11 @@ void handle_buffer(int i, socket_info_s *_socket_info, int sd)
 {
     int valread = 0;
     char buffer[1024] = { 0 };
+    buffer[0] = '\0';
 
+    valread = read(sd, buffer, 1024);
     while (buffer[strlen(buffer) - 1] != '\n'
-        && buffer[strlen(buffer) - 2] != '\r') {
+        && buffer[strlen(buffer) - 2] != '\r' && valread != 0) {
         valread = read(sd, buffer + strlen(buffer), 1024);
     }
     check_client_interaction(buffer, valread, i, _socket_info);
