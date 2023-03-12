@@ -91,6 +91,6 @@ void stor_engine(int sd_idx, socket_info_s *_socket_info, char *arg)
     if (check_error(sd, _socket_info, arg) == -1)
         return;
     path = create_path(current_directory, arg);
-    file_fd = open(path, O_CREAT | O_WRONLY | O_TRUNC);
+    file_fd = open(path, O_CREAT | O_WRONLY | O_TRUNC, 0644);
     write_data(sd, _socket_info, file_fd);
 }
