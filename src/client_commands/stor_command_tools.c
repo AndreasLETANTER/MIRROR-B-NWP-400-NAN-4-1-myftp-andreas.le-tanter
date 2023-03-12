@@ -71,7 +71,6 @@ void write_data(int sd, socket_info_s *_socket_info, int fd)
         (struct sockaddr*) &_socket_info->address, &_socket_info->addrlen);
         }
         while ((read_size = read(data_client, buffer, 1024)) > 0) {
-            write(1, buffer, read_size);
             write(fd, buffer, read_size);
         }
         clean_data(fd, sd, _socket_info);
