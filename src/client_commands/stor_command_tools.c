@@ -76,7 +76,7 @@ void write_data(int sd, socket_info_s *_socket_info, int fd)
         }
         clean_data(fd, sd, _socket_info);
         custom_write(sd, "226 Closing data connection. \
-    Requested file action successful.\n");
+Requested file action successful.\n");
     }
 }
 
