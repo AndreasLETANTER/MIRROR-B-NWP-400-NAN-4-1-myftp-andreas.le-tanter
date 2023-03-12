@@ -18,7 +18,7 @@ static int check_error(int sd, socket_info_s *_socket_info, char *arg)
     int data_client = get_data_client(_socket_info, sd);
 
     if (data_socket == -1) {
-        custom_write(sd, "503 Bad sequence of commands\n");
+        custom_write(sd, "425 PASV or Port before\n");
         return -1;
     }
     return 0;
