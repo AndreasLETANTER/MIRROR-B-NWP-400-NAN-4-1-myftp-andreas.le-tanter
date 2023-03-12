@@ -14,7 +14,7 @@ void handle_cwd_command(int sd_idx, socket_info_s *_socket_info, char *arg)
     int sd = _socket_info->client_socket[sd_idx]->socket_fd;
 
     if (arg == NULL) {
-        custom_write(sd, "500 Syntax error, command unrecognized.\n");
+        custom_write(sd, "550 Failed to change directory.\n");
         return;
     }
     if (chdir(arg) == -1) {
