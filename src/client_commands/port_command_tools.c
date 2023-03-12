@@ -116,7 +116,5 @@ void handle_port_command(int sd_idx, socket_info_s *_socket_info, char *arg)
         return;
     }
     data_sd = bind_data_socket_port(sd, data_sd, clientIp, port);
-    if (fork() == 0)
-        seek_data_connection(_socket_info, data_sd, sd);
     free(clientIp);
 }
