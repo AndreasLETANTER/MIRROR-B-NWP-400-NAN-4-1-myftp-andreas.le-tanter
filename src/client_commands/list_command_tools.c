@@ -53,7 +53,7 @@ void list_engine(int sd_idx, socket_info_s *_socket_info, char *arg)
 
     if (check_error(sd, _socket_info, arg) == -1)
         return;
-    custom_write(sd, "125 Data connection already open; transfer starting.\n");
+    custom_write(sd, "150 Data connection already open; transfer starting.\n");
     if (fork() == 0) {
         if (data_client == -1) {
             data_client = accept(data_socket,
